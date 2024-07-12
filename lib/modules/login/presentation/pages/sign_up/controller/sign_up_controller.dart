@@ -43,7 +43,7 @@ class SignUpController extends FormNotifier<SignUpState> {
     }
   }
 
-  Future<void> login() async {
+  Future<void> register() async {
     try {
       value = SignUpState.loading();
       const user = AuthEntity(token: '');

@@ -3,11 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'modules/home/home.dart';
+import 'modules/login/login.dart';
 import 'modules/splash/splash.dart';
 import 'shared/shared.dart';
 
 class AppModule extends BaseModule {
-  List<BaseModule> get modules => [SplashModule(), HomeModule()];
+  List<BaseModule> get modules => [SplashModule(), HomeModule(), LoginModule()];
 
   @override
   Future<void> init() async {

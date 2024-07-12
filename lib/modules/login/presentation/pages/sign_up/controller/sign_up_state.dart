@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 
 abstract class SignUpState {
-  factory SignUpState.initial() = LoginInitialState;
-  factory SignUpState.loading() = LoginLoadingState;
-  factory SignUpState.validated() = LoginValidatedState;
+  factory SignUpState.initial() = SignUpInitialState;
+  factory SignUpState.loading() = SignUpLoadingState;
+  factory SignUpState.validated() = SignUpValidatedState;
 }
 
-class LoginInitialState extends Equatable implements SignUpState {
+class SignUpInitialState extends Equatable implements SignUpState {
   @override
   List<Object> get props => [];
 }
 
-class LoginLoadingState extends Equatable implements SignUpState {
+class SignUpLoadingState extends Equatable implements SignUpState {
   @override
   List<Object> get props => [];
 }
 
-class LoginValidatedState extends Equatable implements SignUpState {
+class SignUpValidatedState extends Equatable implements SignUpState {
   @override
   List<Object> get props => [];
 }
