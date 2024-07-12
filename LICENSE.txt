@@ -1,0 +1,13 @@
+Copyright (c) [2024] [Gabriel Campos Peixoto]
+
+Todos os direitos reservados.
+
+Permissão é concedida para visualizar e examinar o código fonte para fins de avaliação e revisão técnica. 
+
+É expressamente proibido:
+
+1. Usar o código fonte para qualquer propósito comercial ou de produção.
+2. Copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do código fonte ou partes dele.
+3. Descompilar, fazer engenharia reversa ou tentar de qualquer outra forma obter o código fonte a partir do código compilado.
+
+Este código é fornecido "como está", sem garantia de qualquer tipo, expressa ou implícita, incluindo, mas não se limitando a, garantias de comercialização, adequação a um propósito específico e não violação. Em nenhum caso os autores ou detentores dos direitos autorais serão responsáveis por qualquer reivindicação, danos ou outras responsabilidades, sejam em uma ação de contrato, ato ilícito ou de outra forma, decorrentes de, fora de ou em conexão com o código ou o uso ou outras negociações no código.
