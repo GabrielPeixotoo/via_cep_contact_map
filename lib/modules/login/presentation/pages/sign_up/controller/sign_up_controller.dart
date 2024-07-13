@@ -6,7 +6,6 @@ import '../sign_up.dart';
 class SignUpController extends FormNotifier<SignUpState> {
   final AppNavigator appNavigator;
   final SignUpUsecase signUpUsecase;
-  @override
   final UIHelper uiHelper;
 
   SignUpController({

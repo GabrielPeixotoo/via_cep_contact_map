@@ -22,7 +22,8 @@ class AppRouteArguments {
 
 abstract class AppRoutes {
   static const splashPage = 'splash';
-  static const signUpPage = 'sign_up_page';
+  static const signUpPage = 'sign_up';
+  static const loginPage = 'login';
   static const homePage = 'home';
 
   static List<AppRoute> get routesList => [
@@ -37,6 +38,10 @@ abstract class AppRoutes {
         AppRoute(
           name: signUpPage,
           child: (_) => const SignUpPage(),
+        ),
+        AppRoute(
+          name: loginPage,
+          child: (_) => const LoginPage(),
         ),
       ];
 

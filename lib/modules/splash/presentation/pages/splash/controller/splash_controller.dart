@@ -9,6 +9,6 @@ class SplashController {
     await Future.delayed(
       const Duration(seconds: 2),
     );
-    appNavigator.pushReplacement(AppRoutes.signUpPage);
+    appNavigator.pushReplacement(AppRoutes.loginPage);
   }
 }

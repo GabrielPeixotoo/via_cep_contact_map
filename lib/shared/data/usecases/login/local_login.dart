@@ -3,20 +3,20 @@ import 'package:via_cep_contacts_projects_uex/shared/data/data.dart';
 import '../../../domain/domain.dart';
 
 class LocalLogin implements LoginUsecase {
-  final FetchUserUsecase fetchAuthUsecase;
-  final SaveUserUsecase saveAuthUsecase;
+  final FetchUserUsecase fetchUserUsecase;
+  final SaveCurrentUserUsecase saveCurrentUserUsecase;
   LocalLogin({
-    required this.fetchAuthUsecase,
-    required this.saveAuthUsecase,
+    required this.fetchUserUsecase,
+    required this.saveCurrentUserUsecase,
   });
   @override
   Future<void> call({required AuthEntity authEntity}) async {
     try {
-      final savedUser = await fetchAuthUsecase(email: authEntity.email);
-      if (savedUser == null) {
-        await saveAuthUsecase(authEntity: authEntity);
+      final savedUser = await fetchUserUsecase(email: authEntity.email);
+      if (authEntity == savedUser) {
+        await saveCurrentUserUsecase(user: authEntity);
       } else {
-        throw UserAlreadyExists();
+        throw UserNotFound();
       }
     } catch (e) {
       throw ModelError(error: e);
