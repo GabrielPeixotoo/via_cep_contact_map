@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../../../../shared/shared.dart';
 import '../sign_up.dart';
 
@@ -46,16 +48,16 @@ class SignUpController extends FormNotifier<SignUpState> {
   Future<void> register() async {
     try {
       value = SignUpState.loading();
-      // const user = AuthEntity(token: '');
-      // await saveAuthUsecase(authEntity: user);
-      appNavigator.pushReplacement(AppRoutes.homePage);
+      await signUpUsecase(params: SignUpUsecaseParams(email: emailTextField.text, password: passwordTextField.text));
+
       value = SignUpState.validated();
     } on ConnectionError {
       value = SignUpState.validated();
     } catch (error) {
       if (error is UserAlreadyExists) {
-        emailTextField.errorText.value = '';
-        passwordTextField.errorText.value = 'Usuário já existe';
+        uiHelper.showCustomSnackBar(
+            snackBar: makeSnackBar(icon: Icons.error, text: 'Usuário já existe!', backgroundColor: Colors.red));
+        value = SignUpState.validated();
       } else {
         value = SignUpState.validated();
       }

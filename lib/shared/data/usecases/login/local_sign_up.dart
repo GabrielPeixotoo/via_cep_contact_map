@@ -1,22 +1,22 @@
 import '../../../shared.dart';
 
 class LocalSignUp implements SignUpUsecase {
-  final FetchUserUsecase fetchAuthUsecase;
-  final SaveUserUsecase saveAuthUsecase;
+  final FetchUserUsecase fetchUserUsecase;
+  final SaveUserUsecase saveUserUsecase;
 
-  LocalSignUp({required this.fetchAuthUsecase, required this.saveAuthUsecase});
+  LocalSignUp({required this.fetchUserUsecase, required this.saveUserUsecase});
   @override
   Future<void> call({required SignUpUsecaseParams params}) async {
     try {
       final localParams = LocalSignUpUsecaseParams.fromDomain(params: params);
-      final savedUser = await fetchAuthUsecase(email: localParams.email);
+      final savedUser = await fetchUserUsecase(email: localParams.email);
       if (savedUser == null) {
-        await saveAuthUsecase(authEntity: AuthEntity(email: localParams.email, password: localParams.password));
+        await saveUserUsecase(authEntity: AuthEntity(email: localParams.email, password: localParams.password));
       } else {
         throw UserAlreadyExists();
       }
-    } catch (e) {
-      throw ModelError(error: e);
+    } on CacheError {
+      throw ModelError(message: 'Erro no cache');
     }
   }
 }

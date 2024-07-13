@@ -37,7 +37,7 @@ class AppModule extends BaseModule {
       () => LocalSaveUser(localStorage: instance()),
     );
     instance.registerFactory<SignUpUsecase>(
-      () => LocalSignUp(fetchAuthUsecase: instance(), saveAuthUsecase: instance()),
+      () => LocalSignUp(fetchUserUsecase: instance(), saveUserUsecase: instance()),
     );
     instance.registerLazySingleton<HttpClient>(
       () => DioAdapter(

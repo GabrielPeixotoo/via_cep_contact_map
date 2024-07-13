@@ -11,12 +11,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final controller = InjectionContainer.instance.get<SignUpController>();
+  final _controller = InjectionContainer.instance.get<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: controller,
+      valueListenable: _controller,
       builder: (context, value, child) {
         final isValid = value is SignUpValidatedState;
         return Scaffold(
@@ -45,12 +45,21 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: <Widget>[
                         const Text('Cadastro', style: AppTextTheme.subtitle1),
                         const SizedBox(height: 16.0),
-                        CustomTextField(label: 'Email', controller: controller.emailTextField),
+                        CustomTextField(
+                          label: 'Email',
+                          controller: _controller.emailTextField,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
                         const SizedBox(height: 16.0),
-                        CustomTextField(label: 'Senha', controller: controller.passwordTextField),
+                        CustomTextField(
+                          label: 'Senha',
+                          obscureText: true,
+                          controller: _controller.passwordTextField,
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
                         const SizedBox(height: 32.0),
                         ElevatedButton(
-                          onPressed: isValid ? controller.register : null,
+                          onPressed: isValid ? _controller.register : null,
                           child: const Text(
                             'Realizar cadastro',
                             style: AppTextTheme.button1,
