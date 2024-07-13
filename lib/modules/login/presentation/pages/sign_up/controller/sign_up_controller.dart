@@ -3,13 +3,13 @@ import '../sign_up.dart';
 
 class SignUpController extends FormNotifier<SignUpState> {
   final AppNavigator appNavigator;
-  final SaveAuthUsecase saveAuthUsecase;
+  final SignUpUsecase signUpUsecase;
   @override
   final UIHelper uiHelper;
 
   SignUpController({
     required this.appNavigator,
-    required this.saveAuthUsecase,
+    required this.signUpUsecase,
     required this.uiHelper,
   }) : super(SignUpState.initial());
 

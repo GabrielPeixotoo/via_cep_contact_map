@@ -1,5 +1,5 @@
 import '../../../shared.dart';
 
-abstract class FetchAuthUsecase {
+abstract class FetchUserUsecase {
   Future<AuthEntity?> call({required String username});
 }

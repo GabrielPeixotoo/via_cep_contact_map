@@ -7,8 +7,8 @@ class LoginModule extends BaseModule {
     instance.registerFactory<SignUpController>(
       () => SignUpController(
         appNavigator: instance(),
-        saveAuthUsecase: instance(),
         uiHelper: instance(),
+        signUpUsecase: instance(),
       ),
     );
   }

@@ -1,9 +1,9 @@
 import '../../../shared.dart';
 
-class LocalFetchAuth implements FetchAuthUsecase {
+class LocalFetchUser implements FetchUserUsecase {
   final LocalStorage localStorage;
 
-  LocalFetchAuth({
+  LocalFetchUser({
     required this.localStorage,
   });
 

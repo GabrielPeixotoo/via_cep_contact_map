@@ -1,9 +1,9 @@
 import '../../../shared.dart';
 
-class LocalDeleteAuth implements DeleteAuthUsecase {
+class LocalDeleteUser implements DeleteUserUsecase {
   final LocalStorage localStorage;
 
-  LocalDeleteAuth({
+  LocalDeleteUser({
     required this.localStorage,
   });
 

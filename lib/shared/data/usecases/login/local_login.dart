@@ -2,10 +2,10 @@ import 'package:via_cep_contacts_projects_uex/shared/data/data.dart';
 
 import '../../../domain/domain.dart';
 
-class LocalLoginUsecase implements LoginUsecase {
-  final FetchAuthUsecase fetchAuthUsecase;
-  final SaveAuthUsecase saveAuthUsecase;
-  LocalLoginUsecase({
+class LocalLogin implements LoginUsecase {
+  final FetchUserUsecase fetchAuthUsecase;
+  final SaveUserUsecase saveAuthUsecase;
+  LocalLogin({
     required this.fetchAuthUsecase,
     required this.saveAuthUsecase,
   });

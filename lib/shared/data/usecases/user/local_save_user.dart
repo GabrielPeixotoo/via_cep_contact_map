@@ -1,9 +1,9 @@
 import '../../../shared.dart';
 
-class LocalSaveAuth implements SaveAuthUsecase {
+class LocalSaveUser implements SaveUserUsecase {
   final LocalStorage localStorage;
 
-  LocalSaveAuth({
+  LocalSaveUser({
     required this.localStorage,
   });
 
