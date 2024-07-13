@@ -13,12 +13,12 @@ class SignUpController extends FormNotifier<SignUpState> {
     required this.uiHelper,
   }) : super(SignUpState.initial());
 
-  final userNameTextField = CustomTextEditingController(validator: ValidatorBuilder().build().call);
+  final emailTextField = CustomTextEditingController(validator: ValidatorBuilder().build().call);
   final passwordTextField = CustomTextEditingController(validator: ValidatorBuilder().build().call);
 
   @override
   List<CustomTextEditingController> get fieldControllers => [
-        userNameTextField,
+        emailTextField,
         passwordTextField,
       ];
 
@@ -34,8 +34,8 @@ class SignUpController extends FormNotifier<SignUpState> {
   void goToLoginPage() {}
 
   void validateField() {
-    if (userNameTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
-      userNameTextField.errorText.value = null;
+    if (emailTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
+      emailTextField.errorText.value = null;
       passwordTextField.errorText.value = null;
       value = SignUpState.validated();
     } else {
@@ -53,9 +53,9 @@ class SignUpController extends FormNotifier<SignUpState> {
     } on ConnectionError {
       value = SignUpState.validated();
     } catch (error) {
-      if (error is NotFoundError) {
-        userNameTextField.errorText.value = '';
-        passwordTextField.errorText.value = 'Usuário não encontrado';
+      if (error is UserAlreadyExists) {
+        emailTextField.errorText.value = '';
+        passwordTextField.errorText.value = 'Usuário já existe';
       } else {
         value = SignUpState.validated();
       }

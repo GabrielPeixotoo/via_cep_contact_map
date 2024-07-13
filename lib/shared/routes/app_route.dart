@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../modules/home/home.dart';
+import '../../modules/login/login.dart';
 import '../../modules/splash/splash.dart';
 
 class AppRoute {
@@ -32,6 +33,10 @@ abstract class AppRoutes {
         AppRoute(
           name: homePage,
           child: (_) => const HomePage(),
+        ),
+        AppRoute(
+          name: signUpPage,
+          child: (_) => const SignUpPage(),
         ),
       ];
 
