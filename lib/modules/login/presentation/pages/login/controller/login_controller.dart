@@ -31,8 +31,6 @@ class LoginController extends FormNotifier<LoginState> {
     }
   }
 
-  void goToLoginPage() {}
-
   void validateField() {
     if (emailTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
       emailTextField.errorText.value = null;
@@ -49,6 +47,7 @@ class LoginController extends FormNotifier<LoginState> {
       await loginUsecase(authEntity: AuthEntity(email: emailTextField.text, password: passwordTextField.text));
 
       value = LoginState.validated();
+      appNavigator.pushReplacement(AppRoutes.homePage);
     } on ConnectionError {
       value = LoginState.validated();
     } catch (error) {

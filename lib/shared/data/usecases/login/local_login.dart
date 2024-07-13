@@ -18,8 +18,8 @@ class LocalLogin implements LoginUsecase {
       } else {
         throw UserNotFound();
       }
-    } catch (e) {
-      throw ModelError(error: e);
+    } on CacheError catch (e, s) {
+      throw ModelError(error: e, stackTrace: s);
     }
   }
 }

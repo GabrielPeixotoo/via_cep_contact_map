@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: AppTextTheme.button1,
                           ),
                         ),
+                        const SizedBox(height: 16.0),
                         ElevatedButton(
                           onPressed: _controller.goToSignUpPage,
                           child: const Text(

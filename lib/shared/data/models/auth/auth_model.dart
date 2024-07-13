@@ -24,6 +24,8 @@ class AuthModel extends AuthEntity {
   factory AuthModel.fromEntity({required AuthEntity authEntity}) =>
       AuthModel(password: authEntity.password, email: authEntity.email);
 
+  AuthEntity toEntity() => AuthEntity(password: password, email: email);
+
   Map<String, dynamic> toMap() => {'email': email, 'password': password};
 
   String toJson() => jsonEncode(toMap());

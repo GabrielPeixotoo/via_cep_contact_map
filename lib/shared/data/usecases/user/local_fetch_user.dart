@@ -13,6 +13,6 @@ class LocalFetchUser implements FetchUserUsecase {
     if (json.isEmpty) {
       return null;
     }
-    return AuthModel.fromJson(json: json);
+    return AuthModel.fromJson(json: json).toEntity();
   }
 }

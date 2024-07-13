@@ -32,7 +32,9 @@ class SignUpController extends FormNotifier<SignUpState> {
     }
   }
 
-  void goToLoginPage() {}
+  void goToLoginPage() {
+    appNavigator.pushReplacement(AppRoutes.loginPage);
+  }
 
   void validateField() {
     if (emailTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
@@ -48,8 +50,11 @@ class SignUpController extends FormNotifier<SignUpState> {
     try {
       value = SignUpState.loading();
       await signUpUsecase(params: SignUpUsecaseParams(email: emailTextField.text, password: passwordTextField.text));
-
       value = SignUpState.validated();
+      appNavigator.pushReplacement(AppRoutes.loginPage);
+      uiHelper.showCustomSnackBar(
+          snackBar:
+              makeSnackBar(icon: Icons.check, text: 'Cadastro realizado com sucesso!', backgroundColor: Colors.green));
     } on ConnectionError {
       value = SignUpState.validated();
     } catch (error) {

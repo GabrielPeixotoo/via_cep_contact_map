@@ -10,7 +10,7 @@ SnackBar makeSnackBar({required IconData icon, required String text, required Co
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.red),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: backgroundColor),
         child: Row(
           children: [
             Icon(icon),
