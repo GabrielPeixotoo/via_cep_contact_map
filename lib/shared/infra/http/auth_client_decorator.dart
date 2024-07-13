@@ -32,13 +32,7 @@ class AuthClientDecorator extends HttpClient {
     try {
       final Map<String, String> authorizedHeaders = {};
 
-      final auth = await fetchAuthUsecase();
-
       authorizedHeaders.addAll(headers);
-
-      if (auth.token.isNotEmpty) {
-        authorizedHeaders.addAll({'Authorization': auth.token});
-      }
 
       return client.request(
         url: url,

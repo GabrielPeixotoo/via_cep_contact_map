@@ -8,10 +8,11 @@ class LocalFetchAuth implements FetchAuthUsecase {
   });
 
   @override
-  Future<AuthEntity> call() async {
-    final String enconded =
-        await localStorage.fetch(key: StorageKeys.authEntity);
-
-    return AuthModel.fromJson(json: enconded);
+  Future<AuthEntity?> call({required String username}) async {
+    final String json = await localStorage.fetch(key: username);
+    if (json.isEmpty) {
+      return null;
+    }
+    return AuthModel.fromJson(json: json);
   }
 }

@@ -3,11 +3,11 @@ import 'dart:convert';
 import '../../../shared.dart';
 
 class AuthModel extends AuthEntity {
-  const AuthModel({required super.token});
+  const AuthModel({required super.username, required super.password});
 
   factory AuthModel.fromMap({required Map<String, dynamic> map}) {
     try {
-      return AuthModel(token: map['token']);
+      return AuthModel(username: map['username'], password: map['password']);
     } on TypeError catch (error, stackTrace) {
       throw ModelError(error: error, stackTrace: stackTrace);
     }
@@ -15,18 +15,16 @@ class AuthModel extends AuthEntity {
 
   factory AuthModel.fromJson({required String json}) {
     try {
-      return json.isEmpty
-          ? const AuthModel(token: '')
-          : AuthModel.fromMap(map: jsonDecode(json));
+      return json.isEmpty ? const AuthModel(password: '', username: '') : AuthModel.fromMap(map: jsonDecode(json));
     } on FormatException catch (error, stackTrace) {
       throw ModelError(error: error, stackTrace: stackTrace);
     }
   }
 
   factory AuthModel.fromEntity({required AuthEntity authEntity}) =>
-      AuthModel(token: authEntity.token);
+      AuthModel(password: authEntity.password, username: authEntity.username);
 
-  Map<String, dynamic> toMap() => {'token': token};
+  Map<String, dynamic> toMap() => {'username': username, 'password': password};
 
   String toJson() => jsonEncode(toMap());
 }

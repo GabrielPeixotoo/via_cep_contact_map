@@ -46,8 +46,8 @@ class SignUpController extends FormNotifier<SignUpState> {
   Future<void> register() async {
     try {
       value = SignUpState.loading();
-      const user = AuthEntity(token: '');
-      await saveAuthUsecase(authEntity: user);
+      // const user = AuthEntity(token: '');
+      // await saveAuthUsecase(authEntity: user);
       appNavigator.pushReplacement(AppRoutes.homePage);
       value = SignUpState.validated();
     } on ConnectionError {

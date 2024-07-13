@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../modules/home/home.dart';
 import '../../modules/splash/splash.dart';
-import '../shared.dart';
 
 class AppRoute {
   AppRoute({
@@ -22,9 +21,8 @@ class AppRouteArguments {
 
 abstract class AppRoutes {
   static const splashPage = 'splash';
+  static const signUpPage = 'sign_up_page';
   static const homePage = 'home';
-
-  static InjectionContainer get instance => InjectionContainer.instance;
 
   static List<AppRoute> get routesList => [
         AppRoute(
