@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../shared.dart';
 
@@ -10,9 +8,6 @@ class LocalStorageHiveAdapter implements LocalStorage {
   final Completer<Box> _instance = Completer<Box>();
 
   Future<void> _init() async {
-    final Directory dir = await getApplicationSupportDirectory();
-    Hive.init(dir.path);
-
     final box = await Hive.openBox('myBox');
     _instance.complete(box);
   }

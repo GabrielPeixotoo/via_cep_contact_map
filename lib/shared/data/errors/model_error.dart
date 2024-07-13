@@ -7,3 +7,7 @@ class ModelError extends AppError {
     super.error,
   });
 }
+
+class UserAlreadyExists extends ModelError {}
+
+class UserNotFound extends ModelError {}

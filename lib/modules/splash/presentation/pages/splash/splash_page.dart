@@ -22,13 +22,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => const Scaffold(
         body: Center(
-          child: Image.asset(
-            AppImages.splash,
-            width: 200,
-            height: 200,
-          ),
-        ),
+            child: Icon(
+          Icons.flutter_dash_outlined,
+          size: 200,
+        )),
       );
 }

@@ -2,8 +2,8 @@ import '../../shared.dart';
 
 class AuthClientDecorator extends HttpClient {
   final HttpClient client;
-  final FetchAuthUsecase fetchAuthUsecase;
-  final DeleteAuthUsecase deleteAuthUsecase;
+  final FetchUserUsecase fetchAuthUsecase;
+  final DeleteUserUsecase deleteAuthUsecase;
   final AppNavigator appNavigator;
 
   AuthClientDecorator({
@@ -32,13 +32,7 @@ class AuthClientDecorator extends HttpClient {
     try {
       final Map<String, String> authorizedHeaders = {};
 
-      final auth = await fetchAuthUsecase();
-
       authorizedHeaders.addAll(headers);
-
-      if (auth.token.isNotEmpty) {
-        authorizedHeaders.addAll({'Authorization': auth.token});
-      }
 
       return client.request(
         url: url,
@@ -51,8 +45,6 @@ class AuthClientDecorator extends HttpClient {
         timeout: timeout,
       );
     } on UnauthorizedError {
-      await deleteAuthUsecase();
-      appNavigator.pushAndClearStack(AppRoutes.homePage);
       rethrow;
     }
   }

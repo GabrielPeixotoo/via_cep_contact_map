@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../modules/home/home.dart';
+import '../../modules/login/login.dart';
 import '../../modules/splash/splash.dart';
-import '../shared.dart';
 
 class AppRoute {
   AppRoute({
@@ -22,9 +22,9 @@ class AppRouteArguments {
 
 abstract class AppRoutes {
   static const splashPage = 'splash';
+  static const signUpPage = 'sign_up';
+  static const loginPage = 'login';
   static const homePage = 'home';
-
-  static InjectionContainer get instance => InjectionContainer.instance;
 
   static List<AppRoute> get routesList => [
         AppRoute(
@@ -34,6 +34,14 @@ abstract class AppRoutes {
         AppRoute(
           name: homePage,
           child: (_) => const HomePage(),
+        ),
+        AppRoute(
+          name: signUpPage,
+          child: (_) => const SignUpPage(),
+        ),
+        AppRoute(
+          name: loginPage,
+          child: (_) => const LoginPage(),
         ),
       ];
 

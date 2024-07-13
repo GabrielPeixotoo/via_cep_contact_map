@@ -1,5 +1,5 @@
 import '../../../shared.dart';
 
-abstract class SaveAuthUsecase {
+abstract class SaveUserUsecase {
   Future<void> call({required AuthEntity authEntity});
 }

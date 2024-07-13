@@ -3,11 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'modules/home/home.dart';
+import 'modules/login/login.dart';
 import 'modules/splash/splash.dart';
 import 'shared/shared.dart';
 
 class AppModule extends BaseModule {
-  List<BaseModule> get modules => [SplashModule(), HomeModule()];
+  List<BaseModule> get modules => [SplashModule(), HomeModule(), LoginModule()];
 
   @override
   Future<void> init() async {
@@ -26,14 +27,23 @@ class AppModule extends BaseModule {
     instance.registerLazySingleton<UIHelper>(
       () => UIHelperImpl(navigatorKey: instance()),
     );
-    instance.registerFactory<FetchAuthUsecase>(
-      () => LocalFetchAuth(localStorage: instance()),
+    instance.registerFactory<FetchUserUsecase>(
+      () => LocalFetchUser(localStorage: instance()),
     );
-    instance.registerFactory<DeleteAuthUsecase>(
-      () => LocalDeleteAuth(localStorage: instance()),
+    instance.registerFactory<DeleteUserUsecase>(
+      () => LocalDeleteUser(localStorage: instance()),
     );
-    instance.registerFactory<SaveAuthUsecase>(
-      () => LocalSaveAuth(localStorage: instance()),
+    instance.registerFactory<SaveUserUsecase>(
+      () => LocalSaveUser(localStorage: instance()),
+    );
+    instance.registerFactory<SignUpUsecase>(
+      () => LocalSignUp(fetchUserUsecase: instance(), saveUserUsecase: instance()),
+    );
+    instance.registerFactory<FetchCurrentUserUsecase>(
+      () => LocalFetchCurrentUser(localStorage: instance()),
+    );
+    instance.registerFactory<DeleteCurrentUserUsecase>(
+      () => LocalDeleteCurrentUser(localStorage: instance()),
     );
     instance.registerLazySingleton<HttpClient>(
       () => DioAdapter(
