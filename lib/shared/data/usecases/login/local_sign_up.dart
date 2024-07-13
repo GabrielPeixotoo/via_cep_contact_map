@@ -9,9 +9,9 @@ class LocalSignUp implements SignUpUsecase {
   Future<void> call({required SignUpUsecaseParams params}) async {
     try {
       final localParams = LocalSignUpUsecaseParams.fromDomain(params: params);
-      final savedUser = await fetchAuthUsecase(username: localParams.username);
+      final savedUser = await fetchAuthUsecase(email: localParams.email);
       if (savedUser == null) {
-        await saveAuthUsecase(authEntity: AuthEntity(username: localParams.username, password: localParams.password));
+        await saveAuthUsecase(authEntity: AuthEntity(email: localParams.email, password: localParams.password));
       } else {
         throw UserAlreadyExists();
       }
@@ -22,11 +22,11 @@ class LocalSignUp implements SignUpUsecase {
 }
 
 class LocalSignUpUsecaseParams {
-  final String username;
+  final String email;
   final String password;
 
   const LocalSignUpUsecaseParams({
-    required this.username,
+    required this.email,
     required this.password,
   });
 
@@ -34,7 +34,7 @@ class LocalSignUpUsecaseParams {
     required SignUpUsecaseParams params,
   }) =>
       LocalSignUpUsecaseParams(
-        username: params.username,
+        email: params.email,
         password: params.password,
       );
 }

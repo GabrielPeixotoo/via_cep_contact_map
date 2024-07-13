@@ -12,7 +12,7 @@ class LocalLogin implements LoginUsecase {
   @override
   Future<void> call({required AuthEntity authEntity}) async {
     try {
-      final savedUser = await fetchAuthUsecase(username: authEntity.username);
+      final savedUser = await fetchAuthUsecase(email: authEntity.email);
       if (savedUser == null) {
         await saveAuthUsecase(authEntity: authEntity);
       } else {

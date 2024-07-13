@@ -11,6 +11,6 @@ class LocalSaveUser implements SaveUserUsecase {
   Future<void> call({required AuthEntity authEntity}) async {
     final encodedModel = AuthModel.fromEntity(authEntity: authEntity).toJson();
 
-    await localStorage.save(key: authEntity.username, value: encodedModel);
+    await localStorage.save(key: authEntity.email, value: encodedModel);
   }
 }

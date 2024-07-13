@@ -8,8 +8,8 @@ class LocalFetchUser implements FetchUserUsecase {
   });
 
   @override
-  Future<AuthEntity?> call({required String username}) async {
-    final String json = await localStorage.fetch(key: username);
+  Future<AuthEntity?> call({required String email}) async {
+    final String json = await localStorage.fetch(key: email);
     if (json.isEmpty) {
       return null;
     }

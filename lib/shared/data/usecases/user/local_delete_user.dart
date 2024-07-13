@@ -9,6 +9,6 @@ class LocalDeleteUser implements DeleteUserUsecase {
 
   @override
   Future<void> call() async {
-    await localStorage.delete(key: StorageKeys.authEntity);
+    await localStorage.delete(key: StorageKeys.currentUserEntity);
   }
 }
