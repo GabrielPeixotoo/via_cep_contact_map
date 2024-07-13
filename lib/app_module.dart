@@ -39,6 +39,12 @@ class AppModule extends BaseModule {
     instance.registerFactory<SignUpUsecase>(
       () => LocalSignUp(fetchUserUsecase: instance(), saveUserUsecase: instance()),
     );
+    instance.registerFactory<FetchCurrentUserUsecase>(
+      () => LocalFetchCurrentUser(localStorage: instance()),
+    );
+    instance.registerFactory<DeleteCurrentUserUsecase>(
+      () => LocalDeleteCurrentUser(localStorage: instance()),
+    );
     instance.registerLazySingleton<HttpClient>(
       () => DioAdapter(
         dio: instance(),

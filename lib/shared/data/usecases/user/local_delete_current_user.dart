@@ -1,14 +1,14 @@
 import '../../../shared.dart';
 
-class LocalSaveCurrentUser implements SaveCurrentUserUsecase {
+class LocalDeleteCurrentUser implements DeleteCurrentUserUsecase {
   final LocalStorage localStorage;
 
-  LocalSaveCurrentUser({
+  LocalDeleteCurrentUser({
     required this.localStorage,
   });
 
   @override
-  Future<void> call({required AuthEntity user}) async {
+  Future<void> call() async {
     await localStorage.delete(key: StorageKeys.currentUserEntity);
   }
 }

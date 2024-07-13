@@ -45,8 +45,6 @@ class AuthClientDecorator extends HttpClient {
         timeout: timeout,
       );
     } on UnauthorizedError {
-      await deleteAuthUsecase();
-      appNavigator.pushAndClearStack(AppRoutes.homePage);
       rethrow;
     }
   }
