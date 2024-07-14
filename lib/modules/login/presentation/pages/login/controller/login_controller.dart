@@ -44,7 +44,7 @@ class LoginController extends FormNotifier<LoginState> {
   Future<void> login() async {
     try {
       value = LoginState.loading();
-      await loginUsecase(authEntity: AuthEntity(email: emailTextField.text, password: passwordTextField.text));
+      await loginUsecase(newLoginUser: AuthEntity(email: emailTextField.text, password: passwordTextField.text));
 
       value = LoginState.validated();
       appNavigator.pushReplacement(AppRoutes.homePage);

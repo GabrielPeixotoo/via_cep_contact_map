@@ -3,4 +3,5 @@ class StorageKeys {
 
   static const currentUserEntity = 'currentUserEntity';
   static const contacts = 'contacts';
+  static const users = 'users';
 }

@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import '../../../shared.dart';
 
-class LocalFetchUser implements FetchUserUsecase {
+class LocalFetchUser implements FetchUsersUsecase {
   final LocalStorage localStorage;
 
   LocalFetchUser({
@@ -8,11 +10,19 @@ class LocalFetchUser implements FetchUserUsecase {
   });
 
   @override
-  Future<AuthEntity?> call({required String email}) async {
-    final String json = await localStorage.fetch(key: email);
-    if (json.isEmpty) {
-      return null;
+  Future<List<AuthEntity>> call() async {
+    try {
+      final users = await localStorage.fetch(key: StorageKeys.users);
+
+      if (users.isEmpty) {
+        return [];
+      }
+
+      final List<dynamic> contactsMap = jsonDecode(users);
+      final usersModel = contactsMap.map((map) => AuthModel.fromMap(map: map).toEntity()).toList();
+      return usersModel;
+    } on CacheError catch (e, s) {
+      throw ModelError(error: e, stackTrace: s);
     }
-    return AuthModel.fromJson(json: json).toEntity();
   }
 }

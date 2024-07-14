@@ -8,7 +8,7 @@ class LoginModule extends BaseModule {
       () => LocalSaveCurrentUser(localStorage: instance()),
     );
     instance.registerFactory<LoginUsecase>(
-      () => LocalLogin(fetchUserUsecase: instance(), saveCurrentUserUsecase: instance()),
+      () => LocalLogin(fetchUsersUsecase: instance(), saveCurrentUserUsecase: instance()),
     );
     instance.registerFactory<LoginController>(() => LoginController(
           appNavigator: instance(),

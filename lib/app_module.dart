@@ -27,17 +27,20 @@ class AppModule extends BaseModule {
     instance.registerLazySingleton<UIHelper>(
       () => UIHelperImpl(navigatorKey: instance()),
     );
-    instance.registerFactory<FetchUserUsecase>(
+    instance.registerFactory<FetchUsersUsecase>(
       () => LocalFetchUser(localStorage: instance()),
     );
     instance.registerFactory<DeleteUserUsecase>(
       () => LocalDeleteUser(localStorage: instance()),
     );
     instance.registerFactory<SaveUserUsecase>(
-      () => LocalSaveUser(localStorage: instance()),
+      () => LocalSaveUser(
+        localStorage: instance(),
+        fetchUsersUsecase: instance(),
+      ),
     );
     instance.registerFactory<SignUpUsecase>(
-      () => LocalSignUp(fetchUserUsecase: instance(), saveUserUsecase: instance()),
+      () => LocalSignUp(fetchUsersUsecase: instance(), saveUserUsecase: instance()),
     );
     instance.registerFactory<FetchCurrentUserUsecase>(
       () => LocalFetchCurrentUser(localStorage: instance()),
