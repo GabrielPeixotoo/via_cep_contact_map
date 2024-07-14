@@ -70,6 +70,7 @@ class AddressModel extends Equatable {
       );
 
   Map<String, dynamic> toMap() => {
+        'cep': cep,
         'city': city,
         'state': state,
         'streetName': streetName,

@@ -10,6 +10,8 @@ class ContactEntity extends Equatable {
 
   const ContactEntity({required this.cpf, required this.name, required this.phone, required this.addressEntity});
 
+  String get completeAddress => '${addressEntity.streetName}, ${addressEntity.city} - ${addressEntity.state}';
+
   @override
   List<Object?> get props => [cpf, name, addressEntity, phone];
 }

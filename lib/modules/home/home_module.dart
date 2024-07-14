@@ -48,6 +48,8 @@ class HomeModule extends BaseModule {
           deleteAllContactsUsecase: instance(),
           deleteContactUsecase: instance(),
           fetchContactsUsecase: instance(),
+          appNavigator: instance(),
+          deleteCurrentUserUsecase: instance(),
         ));
   }
 }

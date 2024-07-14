@@ -44,6 +44,15 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
           backgroundColor: AppColors.blue,
+          actions: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.red,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: controller.logout,
+                child: const Text('Sair'))
+          ],
         ),
         body: ValueListenableBuilder<HomeState>(
           valueListenable: controller,

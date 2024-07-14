@@ -49,6 +49,7 @@ class ContactModel extends Equatable {
   Map<String, dynamic> toMap() => {
         'cpf': cpf,
         'name': name,
+        'phone': phone,
         'address': addressModel.toMap(),
       };
 

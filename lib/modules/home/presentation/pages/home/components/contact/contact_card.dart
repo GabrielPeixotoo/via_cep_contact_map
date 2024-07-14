@@ -22,6 +22,7 @@ class ContactCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _RowLabel(
                       label: 'Nome',
@@ -37,11 +38,11 @@ class ContactCard extends StatelessWidget {
                     ),
                     _RowLabel(
                       label: 'Endereço',
-                      content: contact.addressEntity.streetName,
+                      content: contact.completeAddress,
                     ),
                     _RowLabel(
-                      label: 'Local',
-                      content: '${contact.addressEntity.city}, ${contact.addressEntity.state}',
+                      label: 'CEP',
+                      content: contact.addressEntity.cep,
                     )
                   ],
                 ),
@@ -66,17 +67,22 @@ class _RowLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '$label: ',
-          style: AppTextTheme.title2,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '$label: ',
+              style: AppTextTheme.title2.copyWith(fontWeight: FontWeight.w700),
+            ),
+            TextSpan(
+              text: content,
+              style: AppTextTheme.title1,
+            ),
+          ],
         ),
-        Text(
-          content,
-          style: AppTextTheme.title1,
-        ),
-      ],
+      ),
     );
   }
 }
