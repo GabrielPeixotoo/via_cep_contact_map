@@ -78,6 +78,7 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   void onTapCep(String cep) {
     cepTextController.text = cep;
     cepTextController.validate(cep);
+    onChangedCep();
   }
 
   Future<void> onChangedCep() async {
@@ -113,18 +114,18 @@ class ContactFormController extends FormNotifier<ContactFormState> {
       final contact = ContactEntity(
         cpf: cpfTextController.text,
         name: nameTextController.text,
+        phone: phoneTextController.text,
         addressEntity: address.copyWith(latitude: coordinates.lat, longitude: coordinates.long),
       );
       await saveContactUsecase(contactEntity: contact);
 
       value = ContactFormState.validated();
-      appNavigator.pushReplacement(AppRoutes.homePage);
+      appNavigator.pop(result: true);
     } on ConnectionError {
       value = ContactFormState.validated();
     } catch (error) {
-      if (error is UserNotFound) {
-        uiHelper.showCustomSnackBar(
-            snackBar: makeSnackBar(icon: Icons.error, text: 'Usuário não encontrado!', backgroundColor: Colors.red));
+      if (error is DuplicatedContact) {
+        cpfTextController.errorText.value = 'CPF já existente na base de dados';
         value = ContactFormState.validated();
       } else {
         value = ContactFormState.validated();

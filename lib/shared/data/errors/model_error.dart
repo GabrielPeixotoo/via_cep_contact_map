@@ -10,4 +10,6 @@ class ModelError extends AppError {
 
 class UserAlreadyExists extends ModelError {}
 
+class DuplicatedContact extends ModelError {}
+
 class UserNotFound extends ModelError {}

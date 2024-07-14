@@ -8,12 +8,13 @@ import '../models.dart';
 
 class ContactModel extends Equatable {
   final String cpf;
+  final String phone;
   final String name;
   final AddressModel addressModel;
 
-  const ContactModel({required this.cpf, required this.name, required this.addressModel});
+  const ContactModel({required this.cpf, required this.name, required this.phone, required this.addressModel});
 
-  factory ContactModel.empty() => ContactModel(cpf: '', name: '', addressModel: AddressModel.empty());
+  factory ContactModel.empty() => ContactModel(phone: '', cpf: '', name: '', addressModel: AddressModel.empty());
 
   factory ContactModel.fromMap({required Map<String, dynamic> map}) {
     try {
@@ -21,6 +22,7 @@ class ContactModel extends Equatable {
         addressModel: AddressModel.fromMap(map: map['address']),
         cpf: map['cpf'],
         name: map['name'],
+        phone: map['phone'] ?? '',
       );
     } on TypeError catch (error, stackTrace) {
       throw ModelError(error: error, stackTrace: stackTrace);
@@ -38,10 +40,11 @@ class ContactModel extends Equatable {
   factory ContactModel.fromEntity({required ContactEntity contactEntity}) => ContactModel(
         cpf: contactEntity.cpf,
         name: contactEntity.name,
+        phone: contactEntity.phone,
         addressModel: AddressModel.fromEntity(addressEntity: contactEntity.addressEntity),
       );
 
-  ContactEntity toEntity() => ContactEntity(cpf: cpf, name: name, addressEntity: addressModel.toEntity());
+  ContactEntity toEntity() => ContactEntity(phone: phone, cpf: cpf, name: name, addressEntity: addressModel.toEntity());
 
   Map<String, dynamic> toMap() => {
         'cpf': cpf,

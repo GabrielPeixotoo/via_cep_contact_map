@@ -30,6 +30,8 @@ class HomeController extends ValueNotifier<HomeState> {
   }
 
   Future<void> openCreateContactDialog() async {
-    uiHelper.showCustomDialog(dialog: const ContactFormDialog());
+    await uiHelper.showCustomDialog(dialog: const ContactFormDialog());
+
+    fetchContacts();
   }
 }

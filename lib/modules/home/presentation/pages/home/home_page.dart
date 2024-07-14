@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:via_cep_contacts_projects_uex/modules/home/domain/domain.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../shared/shared.dart';
 import '../../../home.dart';
@@ -15,15 +17,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = InjectionContainer.instance.get<HomeController>();
+  final Completer<GoogleMapController> _mapsController = Completer<GoogleMapController>();
 
+  static const CameraPosition _initialPosition = CameraPosition(
+    target: LatLng(-25.460093853672447, -49.27537864691069),
+    zoom: 14.4746,
+  );
   @override
   void initState() {
     super.initState();
     controller.fetchContacts();
   }
 
+  void _focusOnContactMarker(LatLng latLng) async {
+    final mapsFuture = await _mapsController.future;
+    mapsFuture.animateCamera(CameraUpdate.newLatLng(latLng));
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         appBar: AppBar(
           title: const Text(
             'Gerenciamento de contatos',
@@ -56,6 +69,10 @@ class _HomePageState extends State<HomePage> {
                           final contact = contacts[index];
                           return ContactCard(
                             contact: contact,
+                            markerCallback: () => _focusOnContactMarker(LatLng(
+                              contact.addressEntity.latitude ?? _initialPosition.target.latitude,
+                              contact.addressEntity.longitude ?? _initialPosition.target.longitude,
+                            )),
                           );
                         },
                       ),
@@ -66,13 +83,20 @@ class _HomePageState extends State<HomePage> {
                     thickness: 1,
                     color: Colors.grey,
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 3,
-                    child: Column(
-                      children: [
-                        Text('oi'),
-                      ],
-                    ),
+                    child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: _initialPosition,
+                        markers: contacts
+                            .map((contact) => Marker(
+                                markerId: MarkerId(contact.cpf),
+                                position: LatLng(contact.addressEntity.latitude ?? _initialPosition.target.latitude,
+                                    contact.addressEntity.longitude ?? _initialPosition.target.longitude)))
+                            .toSet(),
+                        onMapCreated: (GoogleMapController controller) {
+                          _mapsController.complete(controller);
+                        }),
                   ),
                 ],
               );
@@ -86,73 +110,4 @@ class _HomePageState extends State<HomePage> {
           child: const Icon(Icons.add),
         ),
       );
-}
-
-class ContactCard extends StatelessWidget {
-  final ContactEntity contact;
-  const ContactCard({
-    super.key,
-    required this.contact,
-  });
-
-  @override
-  Widget build(BuildContext context) => Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    _RowLabel(
-                      label: 'Nome',
-                      content: contact.name,
-                    ),
-                    _RowLabel(
-                      label: 'CPF',
-                      content: contact.cpf,
-                    ),
-                    _RowLabel(
-                      label: 'Endereço',
-                      content: contact.addressEntity.streetName,
-                    ),
-                    _RowLabel(
-                      label: 'Local',
-                      content: '${contact.addressEntity.city}, ${contact.addressEntity.state}',
-                    )
-                  ],
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.location_on_outlined, size: 50),
-                color: AppColors.black,
-              )
-            ],
-          ),
-        ),
-      );
-}
-
-class _RowLabel extends StatelessWidget {
-  final String label;
-  final String content;
-  const _RowLabel({super.key, required this.label, required this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '$label: ',
-          style: AppTextTheme.title2,
-        ),
-        Text(
-          content,
-          style: AppTextTheme.title1,
-        ),
-      ],
-    );
-  }
 }
