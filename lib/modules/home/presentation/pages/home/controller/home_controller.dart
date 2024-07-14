@@ -39,6 +39,12 @@ class HomeController extends ValueNotifier<HomeState> {
     fetchContacts();
   }
 
+  Future<void> editContact() async {
+    await uiHelper.showCustomDialog(dialog: const ContactFormDialog());
+
+    fetchContacts();
+  }
+
   Future<void> logout() async {
     await deleteCurrentUserUsecase();
     appNavigator.pushAndClearStack(AppRoutes.loginPage);

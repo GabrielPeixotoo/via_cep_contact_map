@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final contact = contacts[index];
                           return ContactCard(
+                            homeController: controller,
                             contact: contact,
                             markerCallback: () => _focusOnContactMarker(LatLng(
                               contact.addressEntity.latitude ?? _initialPosition.target.latitude,
