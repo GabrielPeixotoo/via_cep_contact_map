@@ -9,10 +9,10 @@ class RemoteFetchAddressByCep implements FetchAddressByCepUsecase {
   RemoteFetchAddressByCep({required this.httpClient, required this.url});
 
   @override
-  Future<List<AddressEntity>> call({required String cep}) async {
+  Future<AddressEntity> call({required String cep}) async {
     try {
       final response = await httpClient.request(url: '$url/$cep/json/', method: HttpMethod.get);
-      return [BrazilianAddressModel.fromMap(map: response).toEntity()];
+      return BrazilianAddressModel.fromMap(map: response).toEntity();
     } on TypeError catch (e, s) {
       throw ModelError(error: e, stackTrace: s);
     }

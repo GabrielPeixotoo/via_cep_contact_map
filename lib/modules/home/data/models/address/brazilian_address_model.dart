@@ -34,6 +34,7 @@ class BrazilianAddressModel extends Equatable {
         streetName: streetName,
         state: state,
         city: city,
+        complement: complement,
         latitude: null,
         longitude: null,
       );

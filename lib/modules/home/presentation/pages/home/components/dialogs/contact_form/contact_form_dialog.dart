@@ -49,18 +49,25 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                             inputFormatters: [PhoneNumberMaskTextInputFormatter()],
                           ),
                           const SizedBox(height: 16),
-                          CustomTextField(label: 'Estado', controller: _controller.stateTextController),
+                          StateDropdown(
+                            controller: _controller,
+                          ),
                           const SizedBox(height: 16),
                           CustomTextField(label: 'Cidade', controller: _controller.cityTextController),
                           const SizedBox(height: 16),
                           CustomTextField(label: 'Endereço', controller: _controller.addressTextController),
                           const SizedBox(height: 16),
-                          AddressAutocomplete(contactFormController: _controller),
+                          CustomTextField(
+                            label: 'CEP',
+                            controller: _controller.cepTextController,
+                            onChanged: (_) => _controller.onChangedCep(),
+                            maxLength: 8,
+                          ),
                           const SizedBox(height: 16),
                           CustomTextField(label: 'Complemento', controller: _controller.complementTextController),
                           const SizedBox(height: 32),
                           ElevatedButton(
-                            onPressed: _controller.addContact,
+                            onPressed: value is ContactFormValidatedState ? _controller.addContact : null,
                             child: const Text(
                               'Adicionar contato',
                               style: AppTextTheme.button1,
@@ -81,61 +88,72 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
       );
 }
 
-class AddressAutocomplete extends StatelessWidget {
-  final ContactFormController contactFormController;
-  const AddressAutocomplete({super.key, required this.contactFormController});
+class StateDropdown extends StatefulWidget {
+  final ContactFormController controller;
+  final String? initialValue;
+  const StateDropdown({super.key, required this.controller, this.initialValue});
 
   @override
-  Widget build(BuildContext context) {
-    return Autocomplete<AddressEntity>(
-      optionsBuilder: (TextEditingValue textEditingValue) async {
-        if (textEditingValue.text.isEmpty) {
-          return const Iterable<AddressEntity>.empty();
-        }
+  State<StateDropdown> createState() => _StateDropdownState();
+}
 
-        try {
-          return await contactFormController.onChangedCep(textEditingValue.text);
-        } catch (e) {
-          return const Iterable<AddressEntity>.empty();
-        }
-      },
-      onSelected: (AddressEntity selection) {
-        // Handle selection of a suggestion
-        print('Selected suggestion: $selection');
-      },
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
-          VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          controller: textEditingController,
-          decoration: const InputDecoration(
-            labelText: 'CEP',
-          ),
-          onChanged: (_) => onFieldSubmitted(),
-        );
-      },
-      optionsViewBuilder:
-          (BuildContext context, AutocompleteOnSelected<AddressEntity> onSelected, Iterable<AddressEntity> options) {
-        return Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            elevation: 4.0,
-            child: SizedBox(
-              height: 200.0,
-              child: ListView(
-                padding: const EdgeInsets.all(8.0),
-                children: options
-                    .map((AddressEntity address) => ListTile(
-                          title: Text(address.streetName),
-                          onTap: () {
-                            onSelected(address);
-                          },
-                        ))
-                    .toList(),
-              ),
+class _StateDropdownState extends State<StateDropdown> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<String>(
+      valueListenable: widget.controller.stateNotifier,
+      builder: (context, stateValue, child) => InputDecorator(
+        decoration: dropDownInputDecoration,
+        isFocused: stateValue.isNotEmpty,
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: stateValue.isEmpty ? null : stateValue,
+            hint: const Text(
+              'Selecione o estado do contato',
+              textAlign: TextAlign.start,
             ),
+            isDense: true,
+            onChanged: (newValue) {
+              setState(() {
+                widget.controller.onChangedState(newValue!);
+              });
+            },
+            items: brazilianStates
+                .map<DropdownMenuItem<String>>(
+                  (value) => DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  ),
+                )
+                .toList(),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
+
+  InputDecoration get dropDownInputDecoration => InputDecoration(
+        counterText: '',
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
+        ),
+        alignLabelWithHint: true,
+        border: InputBorder.none,
+        enabledBorder: colorBorder(),
+        focusedBorder: colorBorder(),
+        disabledBorder: colorBorder(),
+        focusedErrorBorder: colorBorder(),
+        labelStyle: AppTextTheme.title1.copyWith(color: AppColors.black),
+        floatingLabelStyle: AppTextTheme.title1.copyWith(
+          color: AppColors.black,
+        ),
+      );
+
+  OutlineInputBorder colorBorder() => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(
+          color: AppColors.black,
+        ),
+      );
 }

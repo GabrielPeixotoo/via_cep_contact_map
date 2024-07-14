@@ -5,6 +5,7 @@ class AddressEntity extends Equatable {
   final String streetName;
   final String state;
   final String city;
+  final String complement;
   final double? latitude;
   final double? longitude;
 
@@ -13,13 +14,22 @@ class AddressEntity extends Equatable {
     required this.streetName,
     required this.state,
     required this.city,
+    required this.complement,
     required this.latitude,
     required this.longitude,
   });
 
-  factory AddressEntity.empty() =>
-      const AddressEntity(cep: '', city: '', state: '', streetName: '', latitude: null, longitude: null);
+  factory AddressEntity.empty() => const AddressEntity(
+      complement: '', cep: '', city: '', state: '', streetName: '', latitude: null, longitude: null);
 
   @override
-  List<Object?> get props => [cep, streetName, state, city, latitude, longitude];
+  List<Object?> get props => [
+        cep,
+        streetName,
+        state,
+        city,
+        latitude,
+        longitude,
+        complement,
+      ];
 }
