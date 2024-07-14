@@ -18,7 +18,7 @@ class ContactModel extends Equatable {
   factory ContactModel.fromMap({required Map<String, dynamic> map}) {
     try {
       return ContactModel(
-        addressModel: AddressModel.fromMap(map: map),
+        addressModel: AddressModel.fromMap(map: map['address']),
         cpf: map['cpf'],
         name: map['name'],
       );

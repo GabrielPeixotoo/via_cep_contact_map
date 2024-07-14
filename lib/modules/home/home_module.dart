@@ -6,7 +6,6 @@ import 'home.dart';
 class HomeModule extends BaseModule {
   @override
   Future<void> init() async {
-    instance.registerFactory<HomeController>(() => HomeController(uiHelper: instance()));
     instance.registerFactory<FetchContactsUsecase>(() => LocalFetchContacts(
           fetchCurrentUserUsecase: instance(),
           localStorage: instance(),
@@ -33,6 +32,22 @@ class HomeModule extends BaseModule {
           fetchAddressByCepUsecase: instance(),
           fetchCepByAddressUsecase: instance(),
           fetchCoordinatesUsecase: instance(),
+        ));
+    instance.registerFactory<DeleteAllContactsUsecase>(() => LocalDeleteAllContacts(
+          fetchCurrentUserUsecase: instance(),
+          localStorage: instance(),
+        ));
+
+    instance.registerFactory<DeleteContactUsecase>(() => LocalDeleteContact(
+          fetchContactsUsecase: instance(),
+          localStorage: instance(),
+          saveContactUsecase: instance(),
+        ));
+    instance.registerFactory<HomeController>(() => HomeController(
+          uiHelper: instance(),
+          deleteAllContactsUsecase: instance(),
+          deleteContactUsecase: instance(),
+          fetchContactsUsecase: instance(),
         ));
   }
 }

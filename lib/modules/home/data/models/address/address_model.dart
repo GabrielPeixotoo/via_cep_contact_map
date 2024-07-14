@@ -28,7 +28,7 @@ class AddressModel extends Equatable {
   factory AddressModel.fromMap({required Map<String, dynamic> map}) {
     try {
       return AddressModel(
-        cep: map['cep'],
+        cep: map['cep'] ?? '',
         streetName: map['streetName'],
         city: map['city'],
         state: map['state'],
