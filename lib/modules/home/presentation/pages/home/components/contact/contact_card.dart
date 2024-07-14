@@ -76,7 +76,7 @@ class ContactCard extends StatelessWidget {
 class _RowLabel extends StatelessWidget {
   final String label;
   final String content;
-  const _RowLabel({super.key, required this.label, required this.content});
+  const _RowLabel({required this.label, required this.content});
 
   @override
   Widget build(BuildContext context) {

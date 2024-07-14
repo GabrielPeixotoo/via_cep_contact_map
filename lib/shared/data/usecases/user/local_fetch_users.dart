@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import '../../../shared.dart';
 
-class LocalFetchUser implements FetchUsersUsecase {
+class LocalFetchUsers implements FetchUsersUsecase {
   final LocalStorage localStorage;
 
-  LocalFetchUser({
+  LocalFetchUsers({
     required this.localStorage,
   });
 

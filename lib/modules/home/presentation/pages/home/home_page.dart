@@ -31,29 +31,15 @@ class _HomePageState extends State<HomePage> {
 
   void _focusOnContactMarker(LatLng latLng) async {
     final mapsFuture = await _mapsController.future;
-    mapsFuture.animateCamera(CameraUpdate.newLatLng(latLng));
+    mapsFuture.animateCamera(
+      CameraUpdate.newCameraPosition(CameraPosition(target: latLng, zoom: 16)),
+    );
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        appBar: AppBar(
-          title: const Text(
-            'Gerenciamento de contatos',
-            style: AppTextTheme.subtitle1,
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.blue,
-          actions: [
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.red,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: controller.logout,
-                child: const Text('Sair'))
-          ],
-        ),
+        appBar: HomePageAppBar(homeController: controller),
         body: ValueListenableBuilder<HomeState>(
           valueListenable: controller,
           builder: (_, state, __) {
@@ -68,36 +54,11 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: CustomTextField(
-                                  label: 'Filtro por nome ou CPF',
-                                  controller: controller.queryTextController,
-                                  onChanged: (_) => controller.onChangedSearch(),
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(
-                                      Icons.clear,
-                                      color: AppColors.black,
-                                    ),
-                                    onPressed: () {
-                                      controller.clearInput();
-                                      setState(() {});
-                                    },
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                  onPressed: controller.changeFilter,
-                                  icon: const Icon(
-                                    Icons.filter_list_outlined,
-                                    size: 48,
-                                    color: AppColors.black,
-                                  ))
-                            ],
-                          ),
-                        ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: _SearchWidget(
+                              controller: controller,
+                              callback: () => setState(() {}),
+                            )),
                         Visibility(
                           visible: contacts.isNotEmpty,
                           replacement: Padding(
@@ -155,5 +116,41 @@ class _HomePageState extends State<HomePage> {
           tooltip: 'Criar contato',
           child: const Icon(Icons.add),
         ),
+      );
+}
+
+class _SearchWidget extends StatelessWidget {
+  final HomeController controller;
+  final VoidCallback callback;
+  const _SearchWidget({required this.controller, required this.callback});
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Expanded(
+            child: CustomTextField(
+              label: 'Filtro por nome ou CPF',
+              controller: controller.queryTextController,
+              onChanged: (_) => controller.onChangedSearch(),
+              suffixIcon: IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                  color: AppColors.black,
+                ),
+                onPressed: () {
+                  controller.clearInput();
+                  callback();
+                },
+              ),
+            ),
+          ),
+          IconButton(
+              onPressed: controller.changeFilter,
+              icon: const Icon(
+                Icons.filter_list_outlined,
+                size: 48,
+                color: AppColors.black,
+              ))
+        ],
       );
 }

@@ -28,7 +28,7 @@ class AppModule extends BaseModule {
       () => UIHelperImpl(navigatorKey: instance()),
     );
     instance.registerFactory<FetchUsersUsecase>(
-      () => LocalFetchUser(localStorage: instance()),
+      () => LocalFetchUsers(localStorage: instance()),
     );
     instance.registerFactory<DeleteUserUsecase>(
       () => LocalDeleteUser(localStorage: instance()),

@@ -8,6 +8,7 @@ class HomeController extends ValueNotifier<HomeState> {
   final AppNavigator appNavigator;
   final UIHelper uiHelper;
   final FetchContactsUsecase fetchContactsUsecase;
+  final FetchCurrentUserUsecase fetchCurrentUserUsecase;
   final DeleteAllContactsUsecase deleteAllContactsUsecase;
   final DeleteContactUsecase deleteContactUsecase;
   final DeleteCurrentUserUsecase deleteCurrentUserUsecase;
@@ -16,12 +17,18 @@ class HomeController extends ValueNotifier<HomeState> {
     required this.appNavigator,
     required this.uiHelper,
     required this.fetchContactsUsecase,
+    required this.fetchCurrentUserUsecase,
     required this.deleteAllContactsUsecase,
     required this.deleteContactUsecase,
     required this.deleteCurrentUserUsecase,
   }) : super(HomeState.initial());
 
   final queryTextController = CustomTextEditingController();
+
+  Future<String> fetchCurrentUsername() async {
+    final auth = await fetchCurrentUserUsecase();
+    return auth.email;
+  }
 
   Future<void> fetchContacts() async {
     try {
