@@ -18,33 +18,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Home ${FlavorConfig.instance.name}',
+          title: const Text(
+            'Gerenciamento de contatos',
+            style: AppTextTheme.subtitle1,
           ),
+          centerTitle: true,
+          backgroundColor: AppColors.blue,
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ValueListenableBuilder<HomeState>(
-                valueListenable: controller,
-                builder: (_, state, __) {
-                  if (state is InitialState) {
-                    return const Text(
-                      'Contador não iniciado',
-                      style: AppTextTheme.subtitle1,
-                    );
-                  } else if (state is CounterState) {
-                    return Text(
-                      'Você clicou no botão\n${state.counter} vezes',
-                      textAlign: TextAlign.center,
-                      style: AppTextTheme.subtitle1,
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            ],
+          child: ValueListenableBuilder<HomeState>(
+            valueListenable: controller,
+            builder: (_, state, __) {
+              return const Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Text('Contatos'),
+                      ],
+                    ),
+                  ),
+                  VerticalDivider(
+                    width: 20,
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Text('oi'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
         floatingActionButton: FloatingActionButton(

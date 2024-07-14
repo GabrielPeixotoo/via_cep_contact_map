@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../shared/shared.dart';
+import '../components/dialogs/contact_form/contact_form_dialog.dart';
 import 'home_state.dart';
 
 class HomeController extends ValueNotifier<HomeState> {
-  HomeController() : super(HomeState.initial());
+  final UIHelper uiHelper;
+  HomeController({
+    required this.uiHelper,
+  }) : super(HomeState.initial());
 
   void increment() {
-    final state = value;
-
-    if (state is InitialState) {
-      value = HomeState.counter(counter: 1);
-    } else if (state is CounterState) {
-      value = HomeState.counter(counter: state.counter + 1);
-    }
+    uiHelper.showCustomDialog(dialog: const ContactFormDialog());
   }
 
   void decrement() {

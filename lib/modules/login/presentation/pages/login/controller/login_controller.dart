@@ -31,16 +31,6 @@ class LoginController extends FormNotifier<LoginState> {
     }
   }
 
-  void validateField() {
-    if (emailTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
-      emailTextField.errorText.value = null;
-      passwordTextField.errorText.value = null;
-      value = LoginState.validated();
-    } else {
-      value = LoginState.initial();
-    }
-  }
-
   Future<void> login() async {
     try {
       value = LoginState.loading();
