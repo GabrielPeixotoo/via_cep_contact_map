@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:via_cep_contacts_projects_uex/modules/home/domain/domain.dart';
 
 import '../../../../../shared/shared.dart';
 import '../../../home.dart';
@@ -53,13 +54,8 @@ class _HomePageState extends State<HomePage> {
                         itemCount: contacts.length,
                         itemBuilder: (context, index) {
                           final contact = contacts[index];
-                          return Card(
-                            child: Column(
-                              children: [
-                                Text(contact.cpf),
-                                Text(contact.name),
-                              ],
-                            ),
+                          return ContactCard(
+                            contact: contact,
                           );
                         },
                       ),
@@ -90,4 +86,73 @@ class _HomePageState extends State<HomePage> {
           child: const Icon(Icons.add),
         ),
       );
+}
+
+class ContactCard extends StatelessWidget {
+  final ContactEntity contact;
+  const ContactCard({
+    super.key,
+    required this.contact,
+  });
+
+  @override
+  Widget build(BuildContext context) => Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    _RowLabel(
+                      label: 'Nome',
+                      content: contact.name,
+                    ),
+                    _RowLabel(
+                      label: 'CPF',
+                      content: contact.cpf,
+                    ),
+                    _RowLabel(
+                      label: 'Endereço',
+                      content: contact.addressEntity.streetName,
+                    ),
+                    _RowLabel(
+                      label: 'Local',
+                      content: '${contact.addressEntity.city}, ${contact.addressEntity.state}',
+                    )
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.location_on_outlined, size: 50),
+                color: AppColors.black,
+              )
+            ],
+          ),
+        ),
+      );
+}
+
+class _RowLabel extends StatelessWidget {
+  final String label;
+  final String content;
+  const _RowLabel({super.key, required this.label, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          '$label: ',
+          style: AppTextTheme.title2,
+        ),
+        Text(
+          content,
+          style: AppTextTheme.title1,
+        ),
+      ],
+    );
+  }
 }
