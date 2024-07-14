@@ -17,6 +17,9 @@ class AddressEntity extends Equatable {
     required this.longitude,
   });
 
+  factory AddressEntity.empty() =>
+      const AddressEntity(cep: '', city: '', state: '', streetName: '', latitude: null, longitude: null);
+
   @override
   List<Object?> get props => [cep, streetName, state, city, latitude, longitude];
 }

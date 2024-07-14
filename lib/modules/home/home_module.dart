@@ -17,7 +17,7 @@ class HomeModule extends BaseModule {
           localStorage: instance(),
         ));
 
-    const viaCepUrl = "viacep.com.br/ws";
+    const viaCepUrl = "https://viacep.com.br/ws";
     instance.registerFactory<FetchAddressByCepUsecase>(
         () => RemoteFetchAddressByCep(httpClient: instance(), url: viaCepUrl));
     instance.registerFactory<FetchCepByAddressUsecase>(

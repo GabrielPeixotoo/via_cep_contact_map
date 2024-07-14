@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:via_cep_contacts_projects_uex/modules/home/domain/domain.dart';
 
 import '../../../../../../../../shared/shared.dart';
 import '../../../../pages.dart';
@@ -54,7 +55,7 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                           const SizedBox(height: 16),
                           CustomTextField(label: 'Endereço', controller: _controller.addressTextController),
                           const SizedBox(height: 16),
-                          CustomTextField(label: 'CEP', controller: _controller.cepTextController),
+                          AddressAutocomplete(contactFormController: _controller),
                           const SizedBox(height: 16),
                           CustomTextField(label: 'Complemento', controller: _controller.complementTextController),
                           const SizedBox(height: 32),
@@ -78,4 +79,63 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                   ],
                 ))),
       );
+}
+
+class AddressAutocomplete extends StatelessWidget {
+  final ContactFormController contactFormController;
+  const AddressAutocomplete({super.key, required this.contactFormController});
+
+  @override
+  Widget build(BuildContext context) {
+    return Autocomplete<AddressEntity>(
+      optionsBuilder: (TextEditingValue textEditingValue) async {
+        if (textEditingValue.text.isEmpty) {
+          return const Iterable<AddressEntity>.empty();
+        }
+
+        try {
+          return await contactFormController.onChangedCep(textEditingValue.text);
+        } catch (e) {
+          return const Iterable<AddressEntity>.empty();
+        }
+      },
+      onSelected: (AddressEntity selection) {
+        // Handle selection of a suggestion
+        print('Selected suggestion: $selection');
+      },
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
+          VoidCallback onFieldSubmitted) {
+        return TextFormField(
+          controller: textEditingController,
+          decoration: const InputDecoration(
+            labelText: 'CEP',
+          ),
+          onChanged: (_) => onFieldSubmitted(),
+        );
+      },
+      optionsViewBuilder:
+          (BuildContext context, AutocompleteOnSelected<AddressEntity> onSelected, Iterable<AddressEntity> options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4.0,
+            child: SizedBox(
+              height: 200.0,
+              child: ListView(
+                padding: const EdgeInsets.all(8.0),
+                children: options
+                    .map((AddressEntity address) => ListTile(
+                          title: Text(address.streetName),
+                          onTap: () {
+                            onSelected(address);
+                          },
+                        ))
+                    .toList(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

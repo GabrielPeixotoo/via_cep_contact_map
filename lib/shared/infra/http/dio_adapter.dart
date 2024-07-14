@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
@@ -57,14 +55,7 @@ class DioAdapter extends HttpClient {
     required HttpMethod method,
   }) async {
     try {
-      final Map<String, dynamic> dioHeaders = {};
       final formData = await _createFormData(files, sendingMultipleFiles, body);
-
-      dioHeaders
-        ..addAll(headers)
-        ..addAll({
-          'User-Agent': Platform.isAndroid ? 'Android' : 'iPhone',
-        });
 
       final isConnected = await checkConnectivity();
 
@@ -75,8 +66,8 @@ class DioAdapter extends HttpClient {
       final response = await dio
           .request(
             url,
-            data: formData ?? body,
-            options: Options(headers: dioHeaders, method: method.name.toUpperCase()),
+            data: formData,
+            options: Options(method: method.name.toUpperCase()),
             queryParameters: queryParameters,
             cancelToken: cancelToken,
           )

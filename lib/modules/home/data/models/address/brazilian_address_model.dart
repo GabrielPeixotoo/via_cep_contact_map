@@ -20,7 +20,7 @@ class BrazilianAddressModel extends Equatable {
         streetName: map['logradouro'],
         complement: map['complemento'],
         state: map['uf'],
-        city: map['city'],
+        city: map['localidade'],
       );
     } on HttpError catch (_) {
       rethrow;

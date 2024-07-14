@@ -41,6 +41,15 @@ class ContactFormController extends FormNotifier<ContactFormState> {
     }
   }
 
+  Future<List<AddressEntity>> onChangedCep(String cep) async {
+    if (cep.length == 8) {
+      return await fetchAddressByCepUsecase(
+        cep: cep,
+      );
+    }
+    return [];
+  }
+
   Future<void> addContact() async {
     try {
       value = ContactFormState.loading();
