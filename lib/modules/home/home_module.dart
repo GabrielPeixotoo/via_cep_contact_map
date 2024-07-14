@@ -25,6 +25,12 @@ class HomeModule extends BaseModule {
           url: 'https://maps.googleapis.com/maps/api/geocode/json',
           googleApiKey: makeGoogleApiKey(),
         ));
+
+    instance.registerFactory<EditContactUsecase>(() => LocalEditContact(
+          fetchContactsUsecase: instance(),
+          localStorage: instance(),
+          fetchCurrentUserUsecase: instance(),
+        ));
     instance.registerFactory<ContactFormController>(() => ContactFormController(
           uiHelper: instance(),
           appNavigator: instance(),
@@ -32,6 +38,7 @@ class HomeModule extends BaseModule {
           fetchAddressByCepUsecase: instance(),
           fetchCepByAddressUsecase: instance(),
           fetchCoordinatesUsecase: instance(),
+          editContactUsecase: instance(),
         ));
     instance.registerFactory<DeleteAllContactsUsecase>(() => LocalDeleteAllContacts(
           fetchCurrentUserUsecase: instance(),
@@ -43,6 +50,7 @@ class HomeModule extends BaseModule {
           localStorage: instance(),
           saveContactUsecase: instance(),
         ));
+
     instance.registerFactory<HomeController>(() => HomeController(
           uiHelper: instance(),
           deleteAllContactsUsecase: instance(),

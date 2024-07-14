@@ -11,6 +11,7 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   final FetchAddressByCepUsecase fetchAddressByCepUsecase;
   final FetchCepByAddressUsecase fetchCepByAddressUsecase;
   final FetchCoordinatesUsecase fetchCoordinatesUsecase;
+  final EditContactUsecase editContactUsecase;
   ContactFormController({
     required this.saveContactUsecase,
     required this.uiHelper,
@@ -18,6 +19,7 @@ class ContactFormController extends FormNotifier<ContactFormState> {
     required this.fetchAddressByCepUsecase,
     required this.fetchCepByAddressUsecase,
     required this.fetchCoordinatesUsecase,
+    required this.editContactUsecase,
   }) : super(ContactFormState.initial(suggestedCeps: []));
 
   final nameTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
@@ -29,7 +31,7 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   final addressTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
   final complementTextController = CustomTextEditingController();
 
-  final stateNotifier = ValueNotifier<String>('');
+  final stateNotifier = ValueNotifier<String?>(null);
 
   @override
   List<CustomTextEditingController> get fieldControllers => [
@@ -57,13 +59,12 @@ class ContactFormController extends FormNotifier<ContactFormState> {
 
   Future<void> onChangedAddress() async {
     final state = value;
-    if (addressTextController.text.length >= 3 &&
-        cityTextController.text.isNotEmpty &&
-        stateNotifier.value.isNotEmpty) {
+    final ufValue = stateNotifier.value;
+    if (addressTextController.text.length >= 3 && cityTextController.text.isNotEmpty && ufValue != null) {
       final params = FetchCepByAddressParams(
         streetName: addressTextController.text,
         city: cityTextController.text,
-        state: stateNotifier.value,
+        state: ufValue,
       );
       final addresses = await fetchCepByAddressUsecase.call(params: params);
 
@@ -98,13 +99,13 @@ class ContactFormController extends FormNotifier<ContactFormState> {
     complementTextController.validate(address.complement);
   }
 
-  Future<void> addContact() async {
+  Future<void> addContact({ContactEntity? contactEntity}) async {
     try {
       value = ContactFormState.loading();
       final address = AddressEntity(
         cep: cepTextController.text,
         city: cityTextController.text,
-        state: stateNotifier.value,
+        state: stateNotifier.value ?? '',
         streetName: addressTextController.text,
         complement: complementTextController.text,
         latitude: null,
@@ -117,7 +118,11 @@ class ContactFormController extends FormNotifier<ContactFormState> {
         phone: phoneTextController.text,
         addressEntity: address.copyWith(latitude: coordinates.lat, longitude: coordinates.long),
       );
-      await saveContactUsecase(contactEntity: contact);
+      if (contactEntity == null) {
+        await saveContactUsecase(contactEntity: contact);
+      } else {
+        await editContactUsecase(contactEntity: contact);
+      }
 
       value = ContactFormState.validated();
       appNavigator.pop(result: true);

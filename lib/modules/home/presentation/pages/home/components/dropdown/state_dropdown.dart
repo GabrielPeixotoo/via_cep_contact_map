@@ -15,15 +15,24 @@ class StateDropdown extends StatefulWidget {
 
 class _StateDropdownState extends State<StateDropdown> {
   @override
+  void initState() {
+    super.initState();
+    final initialValue = widget.initialValue;
+    if (initialValue != null) {
+      widget.controller.onChangedState(initialValue);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
+    return ValueListenableBuilder<String?>(
       valueListenable: widget.controller.stateNotifier,
       builder: (context, stateValue, child) => InputDecorator(
         decoration: dropDownInputDecoration,
-        isFocused: stateValue.isNotEmpty,
+        isFocused: stateValue != null,
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            value: stateValue.isEmpty ? null : stateValue,
+            value: stateValue,
             hint: const Text(
               'Selecione o estado do contato',
               textAlign: TextAlign.start,

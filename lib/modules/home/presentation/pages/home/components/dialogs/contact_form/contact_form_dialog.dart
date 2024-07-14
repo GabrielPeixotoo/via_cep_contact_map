@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../../../../../shared/shared.dart';
+import '../../../../../../domain/domain.dart';
 import '../../../../pages.dart';
 
 class ContactFormDialog extends StatefulWidget {
-  const ContactFormDialog({super.key});
+  final ContactEntity? contactEntity;
+  const ContactFormDialog({super.key, this.contactEntity});
 
   @override
   State<ContactFormDialog> createState() => _ContactFormDialogState();
@@ -32,17 +34,20 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                       child: ListView(
                         children: [
                           CustomTextField(
+                            initialValue: widget.contactEntity?.name,
                             label: 'Nome',
                             controller: _controller.nameTextController,
                           ),
                           const SizedBox(height: 16),
                           CustomTextField(
+                            initialValue: widget.contactEntity?.cpf,
                             label: 'CPF',
                             controller: _controller.cpfTextController,
                             inputFormatters: [MaskTextInputFormatter().formatToCpf()],
                           ),
                           const SizedBox(height: 16),
                           CustomTextField(
+                            initialValue: widget.contactEntity?.phone,
                             label: 'Telefone',
                             controller: _controller.phoneTextController,
                             inputFormatters: [PhoneNumberMaskTextInputFormatter()],
@@ -50,15 +55,18 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                           const SizedBox(height: 16),
                           StateDropdown(
                             controller: _controller,
+                            initialValue: widget.contactEntity?.addressEntity.state,
                           ),
                           const SizedBox(height: 16),
                           CustomTextField(
+                            initialValue: widget.contactEntity?.addressEntity.city,
                             label: 'Cidade',
                             controller: _controller.cityTextController,
                             onChanged: (_) => _controller.onChangedAddress(),
                           ),
                           const SizedBox(height: 16),
                           CustomTextField(
+                            initialValue: widget.contactEntity?.addressEntity.streetName,
                             label: 'Endereço',
                             controller: _controller.addressTextController,
                             onChanged: (_) => _controller.onChangedAddress(),
@@ -70,20 +78,26 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                               onTap: _controller.onTapCep,
                             ),
                           CustomTextField(
+                            initialValue: widget.contactEntity?.addressEntity.cep,
                             label: 'CEP',
                             controller: _controller.cepTextController,
                             onChanged: (_) => _controller.onChangedCep(),
                             maxLength: 8,
                           ),
                           const SizedBox(height: 16),
-                          CustomTextField(label: 'Complemento', controller: _controller.complementTextController),
+                          CustomTextField(
+                              initialValue: widget.contactEntity?.addressEntity.complement,
+                              label: 'Complemento',
+                              controller: _controller.complementTextController),
                           const SizedBox(height: 32),
                           ElevatedButton(
-                              onPressed: value is ContactFormValidatedState ? _controller.addContact : null,
+                              onPressed: value is ContactFormValidatedState
+                                  ? () => _controller.addContact(contactEntity: widget.contactEntity)
+                                  : null,
                               child: value is ContactFormLoadingState
                                   ? const CircularProgressIndicator()
-                                  : const Text(
-                                      'Adicionar contato',
+                                  : Text(
+                                      widget.contactEntity == null ? 'Adicionar contato' : 'Editar',
                                       style: AppTextTheme.button1,
                                     ))
                         ],

@@ -55,7 +55,7 @@ class ContactCard extends StatelessWidget {
                 Column(
                   children: [
                     IconButton(
-                      onPressed: homeController.editContact,
+                      onPressed: () => homeController.editContact(contact: contact),
                       icon: const Icon(Icons.edit, size: 50),
                       color: AppColors.black,
                     ),
