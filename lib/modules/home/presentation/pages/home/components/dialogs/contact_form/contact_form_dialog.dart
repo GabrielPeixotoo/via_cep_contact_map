@@ -79,12 +79,13 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                           CustomTextField(label: 'Complemento', controller: _controller.complementTextController),
                           const SizedBox(height: 32),
                           ElevatedButton(
-                            onPressed: value is ContactFormValidatedState ? _controller.addContact : null,
-                            child: const Text(
-                              'Adicionar contato',
-                              style: AppTextTheme.button1,
-                            ),
-                          )
+                              onPressed: value is ContactFormValidatedState ? _controller.addContact : null,
+                              child: value is ContactFormLoadingState
+                                  ? const CircularProgressIndicator()
+                                  : const Text(
+                                      'Adicionar contato',
+                                      style: AppTextTheme.button1,
+                                    ))
                         ],
                       ),
                     ),
@@ -104,7 +105,6 @@ class _SuggestedCepsList extends StatelessWidget {
   final List<String> ceps;
   final ValueChanged<String> onTap;
   const _SuggestedCepsList({
-    super.key,
     required this.ceps,
     required this.onTap,
   });

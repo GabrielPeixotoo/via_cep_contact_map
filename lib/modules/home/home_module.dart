@@ -24,6 +24,7 @@ class HomeModule extends BaseModule {
     instance.registerFactory<FetchCoordinatesUsecase>(() => RemoteFetchCoordinates(
           httpClient: instance(),
           url: 'https://maps.googleapis.com/maps/api/geocode/json',
+          googleApiKey: makeGoogleApiKey(),
         ));
     instance.registerFactory<ContactFormController>(() => ContactFormController(
           uiHelper: instance(),
@@ -31,6 +32,7 @@ class HomeModule extends BaseModule {
           saveContactUsecase: instance(),
           fetchAddressByCepUsecase: instance(),
           fetchCepByAddressUsecase: instance(),
+          fetchCoordinatesUsecase: instance(),
         ));
   }
 }
