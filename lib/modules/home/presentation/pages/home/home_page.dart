@@ -60,32 +60,68 @@ class _HomePageState extends State<HomePage> {
             if (state is LoadingState) {
               return const CircularProgressIndicator();
             } else if (state is SuccessState) {
-              final contacts = state.contacts;
+              final contacts = controller.isFiltering() ? state.filteredContacts : state.contacts;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Visibility(
-                      visible: contacts.isNotEmpty,
-                      replacement: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Align(alignment: Alignment.topCenter, child: Text('Cadastre um contato.')),
-                      ),
-                      child: ListView.builder(
-                        itemCount: contacts.length,
-                        itemBuilder: (context, index) {
-                          final contact = contacts[index];
-                          return ContactCard(
-                            homeController: controller,
-                            contact: contact,
-                            markerCallback: () => _focusOnContactMarker(LatLng(
-                              contact.addressEntity.latitude ?? _initialPosition.target.latitude,
-                              contact.addressEntity.longitude ?? _initialPosition.target.longitude,
-                            )),
-                          );
-                        },
-                      ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextField(
+                                  label: 'Filtro por nome ou CPF',
+                                  controller: controller.queryTextController,
+                                  onChanged: (_) => controller.onChangedSearch(),
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(
+                                      Icons.clear,
+                                      color: AppColors.black,
+                                    ),
+                                    onPressed: () {
+                                      controller.clearInput();
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: controller.changeFilter,
+                                  icon: const Icon(
+                                    Icons.filter_list_outlined,
+                                    size: 48,
+                                    color: AppColors.black,
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: contacts.isNotEmpty,
+                          replacement: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(alignment: Alignment.topCenter, child: Text(controller.emptyStateString())),
+                          ),
+                          child: Expanded(
+                            child: ListView.builder(
+                              itemCount: contacts.length,
+                              itemBuilder: (context, index) {
+                                final contact = contacts[index];
+                                return ContactCard(
+                                  homeController: controller,
+                                  contact: contact,
+                                  markerCallback: () => _focusOnContactMarker(LatLng(
+                                    contact.addressEntity.latitude ?? _initialPosition.target.latitude,
+                                    contact.addressEntity.longitude ?? _initialPosition.target.longitude,
+                                  )),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const VerticalDivider(
