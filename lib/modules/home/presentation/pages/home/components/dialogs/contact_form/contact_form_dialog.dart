@@ -24,7 +24,7 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
             children: <Widget>[
               Container(
                 width: MediaQuery.sizeOf(context).width * 0.6,
-                height: MediaQuery.sizeOf(context).height * 0.6,
+                height: MediaQuery.sizeOf(context).height * 0.8,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.greyLight),
                 padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
                 child: ListView(
@@ -46,7 +46,15 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                       inputFormatters: [PhoneNumberMaskTextInputFormatter()],
                     ),
                     const SizedBox(height: 16),
+                    CustomTextField(label: 'Estado', controller: _controller.stateTextController),
+                    const SizedBox(height: 16),
+                    CustomTextField(label: 'Cidade', controller: _controller.cityTextController),
+                    const SizedBox(height: 16),
                     CustomTextField(label: 'Endereço', controller: _controller.addressTextController),
+                    const SizedBox(height: 16),
+                    CustomTextField(label: 'CEP', controller: _controller.cepTextController),
+                    const SizedBox(height: 16),
+                    CustomTextField(label: 'Complemento', controller: _controller.complementTextController),
                     const SizedBox(height: 32),
                     ElevatedButton(
                       onPressed: _controller.addContact,

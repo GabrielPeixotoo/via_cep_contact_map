@@ -18,6 +18,9 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   final cpfTextController = CustomTextEditingController(validator: ValidatorBuilder().cpf().build().call);
   final phoneTextController =
       CustomTextEditingController(validator: ValidatorBuilder().required().phone().build().call);
+  final stateTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
+  final cityTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
+  final cepTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
   final addressTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
   final complementTextController = CustomTextEditingController(validator: ValidatorBuilder().build().call);
 
