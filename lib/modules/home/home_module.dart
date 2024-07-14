@@ -16,10 +16,18 @@ class HomeModule extends BaseModule {
           fetchCurrentUserUsecase: instance(),
           localStorage: instance(),
         ));
+
+    const viaCepUrl = "viacep.com.br/ws";
+    instance.registerFactory<FetchAddressByCepUsecase>(
+        () => RemoteFetchAddressByCep(httpClient: instance(), url: viaCepUrl));
+    instance.registerFactory<FetchCepByAddressUsecase>(
+        () => RemoteFetchCepByAddress(httpClient: instance(), url: viaCepUrl));
     instance.registerFactory<ContactFormController>(() => ContactFormController(
           uiHelper: instance(),
           appNavigator: instance(),
           saveContactUsecase: instance(),
+          fetchAddressByCepUsecase: instance(),
+          fetchCepByAddressUsecase: instance(),
         ));
   }
 }

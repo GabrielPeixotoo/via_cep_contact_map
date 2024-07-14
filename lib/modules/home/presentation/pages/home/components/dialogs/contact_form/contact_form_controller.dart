@@ -8,10 +8,14 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   final SaveContactUsecase saveContactUsecase;
   final UIHelper uiHelper;
   final AppNavigator appNavigator;
+  final FetchAddressByCepUsecase fetchAddressByCepUsecase;
+  final FetchCepByAddressUsecase fetchCepByAddressUsecase;
   ContactFormController({
     required this.saveContactUsecase,
     required this.uiHelper,
     required this.appNavigator,
+    required this.fetchAddressByCepUsecase,
+    required this.fetchCepByAddressUsecase,
   }) : super(ContactFormState.initial());
 
   final nameTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
@@ -44,6 +48,7 @@ class ContactFormController extends FormNotifier<ContactFormState> {
           cpf: cpfTextController.text,
           name: nameTextController.text,
           addressEntity: const AddressEntity(
+            cep: '',
             city: '',
             latitude: -25,
             longitude: -25,

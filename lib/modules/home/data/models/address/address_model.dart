@@ -6,23 +6,27 @@ import '../../../../../shared/shared.dart';
 import '../../../domain/entities/entities.dart';
 
 class AddressModel extends Equatable {
+  final String cep;
   final String streetName;
   final String state;
   final String city;
-  final double latitude;
-  final double longitude;
+  final double? latitude;
+  final double? longitude;
   const AddressModel(
-      {required this.streetName,
+      {required this.cep,
+      required this.streetName,
       required this.state,
       required this.city,
       required this.latitude,
       required this.longitude});
 
-  factory AddressModel.empty() => const AddressModel(city: '', latitude: 0, longitude: 0, state: '', streetName: '');
+  factory AddressModel.empty() =>
+      const AddressModel(cep: '', city: '', latitude: 0, longitude: 0, state: '', streetName: '');
 
   factory AddressModel.fromMap({required Map<String, dynamic> map}) {
     try {
       return AddressModel(
+        cep: map['cep'],
         streetName: map['streetName'],
         city: map['city'],
         state: map['state'],
@@ -43,6 +47,7 @@ class AddressModel extends Equatable {
   }
 
   factory AddressModel.fromEntity({required AddressEntity addressEntity}) => AddressModel(
+        cep: addressEntity.cep,
         city: addressEntity.city,
         state: addressEntity.state,
         streetName: addressEntity.streetName,
@@ -51,6 +56,7 @@ class AddressModel extends Equatable {
       );
 
   AddressEntity toEntity() => AddressEntity(
+        cep: cep,
         city: city,
         state: state,
         streetName: streetName,
