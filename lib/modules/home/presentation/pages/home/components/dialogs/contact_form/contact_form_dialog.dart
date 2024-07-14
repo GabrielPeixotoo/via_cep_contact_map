@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:via_cep_contacts_projects_uex/modules/home/domain/domain.dart';
 
 import '../../../../../../../../shared/shared.dart';
 import '../../../../pages.dart';
@@ -53,10 +52,23 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                             controller: _controller,
                           ),
                           const SizedBox(height: 16),
-                          CustomTextField(label: 'Cidade', controller: _controller.cityTextController),
+                          CustomTextField(
+                            label: 'Cidade',
+                            controller: _controller.cityTextController,
+                            onChanged: (_) => _controller.onChangedAddress(),
+                          ),
                           const SizedBox(height: 16),
-                          CustomTextField(label: 'Endereço', controller: _controller.addressTextController),
+                          CustomTextField(
+                            label: 'Endereço',
+                            controller: _controller.addressTextController,
+                            onChanged: (_) => _controller.onChangedAddress(),
+                          ),
                           const SizedBox(height: 16),
+                          if (value is ContactFormInitialState)
+                            _SuggestedCepsList(
+                              ceps: value.suggestedCeps,
+                              onTap: _controller.onTapCep,
+                            ),
                           CustomTextField(
                             label: 'CEP',
                             controller: _controller.cepTextController,
@@ -88,72 +100,30 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
       );
 }
 
-class StateDropdown extends StatefulWidget {
-  final ContactFormController controller;
-  final String? initialValue;
-  const StateDropdown({super.key, required this.controller, this.initialValue});
+class _SuggestedCepsList extends StatelessWidget {
+  final List<String> ceps;
+  final ValueChanged<String> onTap;
+  const _SuggestedCepsList({
+    super.key,
+    required this.ceps,
+    required this.onTap,
+  });
 
   @override
-  State<StateDropdown> createState() => _StateDropdownState();
-}
-
-class _StateDropdownState extends State<StateDropdown> {
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-      valueListenable: widget.controller.stateNotifier,
-      builder: (context, stateValue, child) => InputDecorator(
-        decoration: dropDownInputDecoration,
-        isFocused: stateValue.isNotEmpty,
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            value: stateValue.isEmpty ? null : stateValue,
-            hint: const Text(
-              'Selecione o estado do contato',
-              textAlign: TextAlign.start,
-            ),
-            isDense: true,
-            onChanged: (newValue) {
-              setState(() {
-                widget.controller.onChangedState(newValue!);
-              });
-            },
-            items: brazilianStates
-                .map<DropdownMenuItem<String>>(
-                  (value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+  Widget build(BuildContext context) => Visibility(
+        visible: ceps.isNotEmpty,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: ListView(shrinkWrap: true, children: [
+            const Text('Sugestões de CEP'),
+            ...ceps.map((cep) => InkWell(
+                  onTap: () => onTap(cep),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(cep),
                   ),
-                )
-                .toList(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration get dropDownInputDecoration => InputDecoration(
-        counterText: '',
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 16,
-        ),
-        alignLabelWithHint: true,
-        border: InputBorder.none,
-        enabledBorder: colorBorder(),
-        focusedBorder: colorBorder(),
-        disabledBorder: colorBorder(),
-        focusedErrorBorder: colorBorder(),
-        labelStyle: AppTextTheme.title1.copyWith(color: AppColors.black),
-        floatingLabelStyle: AppTextTheme.title1.copyWith(
-          color: AppColors.black,
-        ),
-      );
-
-  OutlineInputBorder colorBorder() => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: AppColors.black,
+                )),
+          ]),
         ),
       );
 }

@@ -10,13 +10,15 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   final AppNavigator appNavigator;
   final FetchAddressByCepUsecase fetchAddressByCepUsecase;
   final FetchCepByAddressUsecase fetchCepByAddressUsecase;
+  final FetchCoordinatesUsecase fetchCoordinatesUsecase;
   ContactFormController({
     required this.saveContactUsecase,
     required this.uiHelper,
     required this.appNavigator,
     required this.fetchAddressByCepUsecase,
     required this.fetchCepByAddressUsecase,
-  }) : super(ContactFormState.initial());
+    required this.fetchCoordinatesUsecase,
+  }) : super(ContactFormState.initial(suggestedCeps: []));
 
   final nameTextController = CustomTextEditingController(validator: ValidatorBuilder().required().build().call);
   final cpfTextController = CustomTextEditingController(validator: ValidatorBuilder().cpf().build().call);
@@ -44,15 +46,17 @@ class ContactFormController extends FormNotifier<ContactFormState> {
     if (isFormValid) {
       value = ContactFormState.validated();
     } else {
-      value = ContactFormState.initial();
+      value = ContactFormState.initial(suggestedCeps: []);
     }
   }
 
   void onChangedState(String value) {
     stateNotifier.value = value;
+    onChangedAddress();
   }
 
   Future<void> onChangedAddress() async {
+    final state = value;
     if (addressTextController.text.length >= 3 &&
         cityTextController.text.isNotEmpty &&
         stateNotifier.value.isNotEmpty) {
@@ -62,7 +66,18 @@ class ContactFormController extends FormNotifier<ContactFormState> {
         state: stateNotifier.value,
       );
       final addresses = await fetchCepByAddressUsecase.call(params: params);
+
+      if (state is ContactFormInitialState) {
+        value = state.copyWith(
+          suggestedCeps: addresses.map((e) => e.cep).toList(),
+        );
+      }
     }
+  }
+
+  void onTapCep(String cep) {
+    cepTextController.text = cep;
+    cepTextController.validate(cep);
   }
 
   Future<void> onChangedCep() async {
@@ -85,18 +100,21 @@ class ContactFormController extends FormNotifier<ContactFormState> {
   Future<void> addContact() async {
     try {
       value = ContactFormState.loading();
+      final address = AddressEntity(
+        cep: cepTextController.text,
+        city: cityTextController.text,
+        state: stateNotifier.value,
+        streetName: addressTextController.text,
+        complement: complementTextController.text,
+        latitude: null,
+        longitude: null,
+      );
+      final coordinates = await fetchCoordinatesUsecase(addressEntity: address);
       final contact = ContactEntity(
-          cpf: cpfTextController.text,
-          name: nameTextController.text,
-          addressEntity: const AddressEntity(
-            cep: '',
-            city: '',
-            latitude: -25,
-            longitude: -25,
-            state: '',
-            streetName: '',
-            complement: '',
-          ));
+        cpf: cpfTextController.text,
+        name: nameTextController.text,
+        addressEntity: address.copyWith(latitude: coordinates.lat, longitude: coordinates.long),
+      );
       await saveContactUsecase(contactEntity: contact);
 
       value = ContactFormState.validated();

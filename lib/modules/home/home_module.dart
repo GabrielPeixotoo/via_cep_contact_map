@@ -17,11 +17,14 @@ class HomeModule extends BaseModule {
           localStorage: instance(),
         ));
 
-    const viaCepUrl = "https://viacep.com.br/ws";
     instance.registerFactory<FetchAddressByCepUsecase>(
-        () => RemoteFetchAddressByCep(httpClient: instance(), url: viaCepUrl));
+        () => RemoteFetchAddressByCep(httpClient: instance(), url: makeViaCepUrl()));
     instance.registerFactory<FetchCepByAddressUsecase>(
-        () => RemoteFetchCepByAddress(httpClient: instance(), url: viaCepUrl));
+        () => RemoteFetchCepByAddress(httpClient: instance(), url: makeViaCepUrl()));
+    instance.registerFactory<FetchCoordinatesUsecase>(() => RemoteFetchCoordinates(
+          httpClient: instance(),
+          url: 'https://maps.googleapis.com/maps/api/geocode/json',
+        ));
     instance.registerFactory<ContactFormController>(() => ContactFormController(
           uiHelper: instance(),
           appNavigator: instance(),

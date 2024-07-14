@@ -32,4 +32,24 @@ class AddressEntity extends Equatable {
         longitude,
         complement,
       ];
+
+  AddressEntity copyWith({
+    String? cep,
+    String? streetName,
+    String? state,
+    String? city,
+    String? complement,
+    double? latitude,
+    double? longitude,
+  }) {
+    return AddressEntity(
+      cep: cep ?? this.cep,
+      streetName: streetName ?? this.streetName,
+      state: state ?? this.state,
+      city: city ?? this.city,
+      complement: complement ?? this.complement,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
+  }
 }

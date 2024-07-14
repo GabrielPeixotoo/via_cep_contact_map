@@ -12,9 +12,9 @@ class RemoteFetchCepByAddress implements FetchCepByAddressUsecase {
   Future<List<AddressEntity>> call({required FetchCepByAddressParams params}) async {
     try {
       final remoteParams = RemoteFetchCepByAddressUsecaseParams.fromDomain(params);
+      final encodedStreetName = Uri.encodeComponent(remoteParams.streetName);
       final response = await httpClient.request(
-          url: '$url/${remoteParams.state}/${remoteParams.city}/${{remoteParams.streetName}}/json/',
-          method: HttpMethod.get);
+          url: '$url/${remoteParams.state}/${remoteParams.city}/$encodedStreetName/json/', method: HttpMethod.get);
       return (response as List<dynamic>).map((e) => BrazilianAddressModel.fromMap(map: e).toEntity()).toList();
     } on TypeError catch (e, s) {
       throw ModelError(error: e, stackTrace: s);
