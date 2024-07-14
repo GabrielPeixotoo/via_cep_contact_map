@@ -48,6 +48,11 @@ class HomeController extends ValueNotifier<HomeState> {
     fetchContacts();
   }
 
+  Future<void> deleteContact({required ContactEntity contact}) async {
+    await deleteContactUsecase(contactEntity: contact);
+    fetchContacts();
+  }
+
   Future<void> logout() async {
     await deleteCurrentUserUsecase();
     appNavigator.pushAndClearStack(AppRoutes.loginPage);

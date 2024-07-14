@@ -48,7 +48,7 @@ class HomeModule extends BaseModule {
     instance.registerFactory<DeleteContactUsecase>(() => LocalDeleteContact(
           fetchContactsUsecase: instance(),
           localStorage: instance(),
-          saveContactUsecase: instance(),
+          fetchCurrentUserUsecase: instance(),
         ));
 
     instance.registerFactory<HomeController>(() => HomeController(

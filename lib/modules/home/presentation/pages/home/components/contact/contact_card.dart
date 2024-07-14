@@ -60,7 +60,7 @@ class ContactCard extends StatelessWidget {
                       color: AppColors.black,
                     ),
                     IconButton(
-                      onPressed: markerCallback,
+                      onPressed: () => homeController.deleteContact(contact: contact),
                       icon: const Icon(Icons.delete_forever, size: 50),
                       color: AppColors.red,
                     ),
