@@ -1,3 +1,5 @@
+import 'package:via_cep_contacts_projects_uex/shared/presentation/presentation.dart';
+
 import '../../../shared.dart';
 
 class ValidatorBuilder {
@@ -30,6 +32,11 @@ class ValidatorBuilder {
 
   ValidatorBuilder phone() {
     validators.add(PhoneValidator());
+    return this;
+  }
+
+  ValidatorBuilder cep() {
+    validators.add(CepValidator());
     return this;
   }
 

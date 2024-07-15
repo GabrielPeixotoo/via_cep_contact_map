@@ -31,7 +31,7 @@ abstract class AppTheme {
     onPrimary: AppColors.white,
     onSecondary: AppColors.white,
     onSurface: AppColors.black,
-    primary: AppColors.primary,
+    primary: AppColors.blue,
     secondary: AppColors.secondary,
     surface: AppColors.white,
   );

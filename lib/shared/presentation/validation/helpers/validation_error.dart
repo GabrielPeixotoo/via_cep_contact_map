@@ -3,7 +3,8 @@ enum ValidationError {
   invalidEmail(message: 'E-mail inválido'),
   invalidCpf(message: 'CPF inválido'),
   invalidPhone(message: 'Telefone inválido'),
-  invalidField(message: 'Campo inválido');
+  invalidField(message: 'Campo inválido'),
+  invalidCep(message: 'CEP inválido');
 
   final String message;
 

@@ -18,6 +18,7 @@ class CustomTextField extends StatefulWidget {
   final bool enabled;
   final VoidCallback? onEditingComplete;
   final List<String>? autofillHints;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
@@ -35,6 +36,7 @@ class CustomTextField extends StatefulWidget {
     this.enabled = true,
     this.onEditingComplete,
     this.autofillHints,
+    this.onChanged,
   });
 
   @override
@@ -47,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
-    if(widget.controller.text.isEmpty && widget.initialValue?.isNotEmpty == true) {
+    if (widget.controller.text.isEmpty && widget.initialValue?.isNotEmpty == true) {
       widget.controller.text = widget.initialValue!;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         widget.controller.validate(widget.controller.text);
@@ -72,6 +74,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           onChanged: (text) {
             widget.controller.validate(text);
             widget.controller.userInteraction = true;
+            widget.onChanged?.call(text);
           },
           enabled: widget.enabled,
           keyboardType: widget.keyboardType,
@@ -84,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           enableSuggestions: false,
           cursorColor: AppColors.black,
           style: AppTextTheme.title2.copyWith(
-            color: widget.enabled ? AppColors.black : AppColors.greyLight,
+            color: AppColors.black,
           ),
           decoration: InputDecoration(
             counterText: '',
@@ -99,9 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             disabledBorder: colorBorder(errorText),
             errorBorder: colorBorder(errorText),
             focusedErrorBorder: colorBorder(errorText),
-            labelStyle: AppTextTheme.title1.copyWith(
-              color: widget.enabled ? AppColors.black : AppColors.greyLight,
-            ),
+            labelStyle: AppTextTheme.title1.copyWith(color: AppColors.black),
             floatingLabelStyle: AppTextTheme.title1.copyWith(
               color: _changeBorderColor(errorText),
             ),
@@ -131,9 +132,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       );
 
   Color _changeBorderColor(String? errorText) {
-    if (!widget.enabled) {
-      return AppColors.greyLight;
-    } else if (errorText == null && widget.controller.text.isEmpty) {
+    if (errorText == null && widget.controller.text.isEmpty) {
       return AppColors.greyDark;
     } else if (errorText != null) {
       return AppColors.red;

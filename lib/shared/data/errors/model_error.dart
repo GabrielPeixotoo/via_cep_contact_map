@@ -7,3 +7,11 @@ class ModelError extends AppError {
     super.error,
   });
 }
+
+class UserAlreadyExists extends ModelError {}
+
+class DuplicatedContact extends ModelError {}
+
+class UserNotFound extends ModelError {}
+
+class WrongPassword extends ModelError {}
