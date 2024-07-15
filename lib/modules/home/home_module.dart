@@ -51,6 +51,14 @@ class HomeModule extends BaseModule {
           fetchCurrentUserUsecase: instance(),
         ));
 
+    instance.registerFactory<DeleteUserUsecase>(
+      () => LocalDeleteUser(
+        localStorage: instance(),
+        fetchCurrentUserUsecase: instance(),
+        fetchUsersUsecase: instance(),
+      ),
+    );
+
     instance.registerFactory<HomeController>(() => HomeController(
           uiHelper: instance(),
           deleteAllContactsUsecase: instance(),
@@ -60,5 +68,13 @@ class HomeModule extends BaseModule {
           deleteCurrentUserUsecase: instance(),
           fetchCurrentUserUsecase: instance(),
         ));
+
+    instance.registerFactory<DeleteAccountController>(() => DeleteAccountController(
+        uiHelper: instance(),
+        deleteAllContactsUsecase: instance(),
+        appNavigator: instance(),
+        deleteCurrentUserUsecase: instance(),
+        fetchCurrentUserUsecase: instance(),
+        deleteUserUsecase: instance()));
   }
 }

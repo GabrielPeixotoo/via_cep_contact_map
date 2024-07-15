@@ -13,15 +13,11 @@ class LocalLogin implements LoginUsecase {
   Future<void> call({required AuthEntity newLoginUser}) async {
     try {
       final usersInDatabase = await fetchUsersUsecase();
-      bool foundUser = false;
-      for (final user in usersInDatabase) {
-        if (user == newLoginUser) {
-          foundUser = true;
-          await saveCurrentUserUsecase(user: newLoginUser);
-          break;
-        }
-      }
-      if (!foundUser) {
+      final userExists = usersInDatabase.any((user) => user == newLoginUser);
+
+      if (userExists) {
+        await saveCurrentUserUsecase(user: newLoginUser);
+      } else {
         throw UserNotFound();
       }
     } on CacheError catch (e, s) {

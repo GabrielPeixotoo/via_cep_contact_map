@@ -30,9 +30,7 @@ class AppModule extends BaseModule {
     instance.registerFactory<FetchUsersUsecase>(
       () => LocalFetchUsers(localStorage: instance()),
     );
-    instance.registerFactory<DeleteUserUsecase>(
-      () => LocalDeleteUser(localStorage: instance()),
-    );
+
     instance.registerFactory<SaveUserUsecase>(
       () => LocalSaveUser(
         localStorage: instance(),

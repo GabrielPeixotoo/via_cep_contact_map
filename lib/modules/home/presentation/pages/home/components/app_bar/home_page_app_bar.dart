@@ -22,13 +22,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: AppColors.blue,
       actions: [
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: homeController.logout,
-            child: const Text('Sair'))
+        CustomContextMenu(
+          items: const ['Sair', 'Apagar conta e dados'],
+          onSelected: (value) => switch (value) {
+            0 => homeController.logout(),
+            1 => homeController.showDeleteAccountDialog(),
+            _ => null,
+          },
+        )
       ],
     );
   }

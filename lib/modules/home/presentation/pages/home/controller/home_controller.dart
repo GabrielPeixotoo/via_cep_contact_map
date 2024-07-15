@@ -103,6 +103,11 @@ class HomeController extends ValueNotifier<HomeState> {
     }
   }
 
+  Future<void> showDeleteAccountDialog() async {
+    await uiHelper.showCustomDialog(dialog: const DeleteAccountDialog());
+    appNavigator.pushAndClearStack(AppRoutes.loginPage);
+  }
+
   Future<void> logout() async {
     await deleteCurrentUserUsecase();
     appNavigator.pushAndClearStack(AppRoutes.loginPage);
