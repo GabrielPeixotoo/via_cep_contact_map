@@ -6,11 +6,9 @@ class LocalFetchCurrentUser implements FetchCurrentUserUsecase {
   LocalFetchCurrentUser({required this.localStorage});
 
   @override
-  Future<AuthEntity?> call() async {
+  Future<AuthEntity> call() async {
     final String json = await localStorage.fetch(key: StorageKeys.currentUserEntity);
-    if (json.isEmpty) {
-      return null;
-    }
+
     return AuthModel.fromJson(json: json);
   }
 }

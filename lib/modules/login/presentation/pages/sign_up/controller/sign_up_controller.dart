@@ -36,16 +36,6 @@ class SignUpController extends FormNotifier<SignUpState> {
     appNavigator.pushReplacement(AppRoutes.loginPage);
   }
 
-  void validateField() {
-    if (emailTextField.text.isNotEmpty && passwordTextField.text.isNotEmpty) {
-      emailTextField.errorText.value = null;
-      passwordTextField.errorText.value = null;
-      value = SignUpState.validated();
-    } else {
-      value = SignUpState.initial();
-    }
-  }
-
   Future<void> register() async {
     try {
       value = SignUpState.loading();

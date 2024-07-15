@@ -2,7 +2,7 @@ import '../../shared.dart';
 
 class AuthClientDecorator extends HttpClient {
   final HttpClient client;
-  final FetchUserUsecase fetchAuthUsecase;
+  final FetchUsersUsecase fetchAuthUsecase;
   final DeleteUserUsecase deleteAuthUsecase;
   final AppNavigator appNavigator;
 

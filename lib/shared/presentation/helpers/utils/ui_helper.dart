@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 abstract class UIHelper {
   void showCustomSnackBar({required SnackBar snackBar});
 
-  void showCustomDialog({required Widget dialog});
+  Future<T?> showCustomDialog<T extends Object?>({required Widget dialog});
 
   void showCustomBottomSheet({required Widget bottomSheet});
 }
@@ -23,8 +23,8 @@ class UIHelperImpl implements UIHelper {
   }
 
   @override
-  void showCustomDialog({required Widget dialog}) {
-    showDialog(
+  Future<T?> showCustomDialog<T extends Object?>({required Widget dialog}) async {
+    return await showDialog(
       context: navigatorKey.currentContext!,
       barrierDismissible: true,
       barrierColor: const Color(0xff1B1B1B).withOpacity(0.9),
