@@ -1,4 +1,5 @@
 # via_cep_contacts_project_uex
+# Flutter version: 3.19.0
 
 Contacts and addresses management using Clean Architecture, REST API and Local Database.
 
@@ -10,6 +11,26 @@ Este repositório está licenciado sob uma Licença Proprietária. Consulte o ar
 
 Para mais informações ou solicitações de permissão, entre em contato com Gabriel Campos Peixoto em gabriel.cpeixoto1@gmail.com.
 
+**Como rodar o projeto?**
+
+Adicione este launch.json na pasta ./vscode/launch.json
+
+'''
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "dev",
+        "cwd": ".",
+        "request": "launch",
+        "type": "dart",
+        "flutterMode": "debug",
+        "program": "lib/main/main_dev.dart",
+      },
+     
+    ]
+  }
+'''
 
 ## Getting Started
 
