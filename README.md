@@ -1,7 +1,7 @@
 # via_cep_contacts_project_uex
 # Flutter version: 3.19.0
 
-Contacts and addresses management using Clean Architecture, REST API and Local Database.
+Flutter Web Contacts and addresses management using Clean Architecture, REST API and Local Database.
 
 # Licença
 
