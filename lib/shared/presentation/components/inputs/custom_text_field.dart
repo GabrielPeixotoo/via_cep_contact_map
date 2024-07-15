@@ -87,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           enableSuggestions: false,
           cursorColor: AppColors.black,
           style: AppTextTheme.title2.copyWith(
-            color: widget.enabled ? AppColors.black : AppColors.greyLight,
+            color: AppColors.black,
           ),
           decoration: InputDecoration(
             counterText: '',
@@ -102,9 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             disabledBorder: colorBorder(errorText),
             errorBorder: colorBorder(errorText),
             focusedErrorBorder: colorBorder(errorText),
-            labelStyle: AppTextTheme.title1.copyWith(
-              color: widget.enabled ? AppColors.black : AppColors.greyLight,
-            ),
+            labelStyle: AppTextTheme.title1.copyWith(color: AppColors.black),
             floatingLabelStyle: AppTextTheme.title1.copyWith(
               color: _changeBorderColor(errorText),
             ),
@@ -134,9 +132,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       );
 
   Color _changeBorderColor(String? errorText) {
-    if (!widget.enabled) {
-      return AppColors.greyLight;
-    } else if (errorText == null && widget.controller.text.isEmpty) {
+    if (errorText == null && widget.controller.text.isEmpty) {
       return AppColors.greyDark;
     } else if (errorText != null) {
       return AppColors.red;

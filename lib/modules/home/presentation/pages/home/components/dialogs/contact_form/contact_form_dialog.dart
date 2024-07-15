@@ -44,6 +44,7 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
                             label: 'CPF',
                             controller: _controller.cpfTextController,
                             inputFormatters: [MaskTextInputFormatter().formatToCpf()],
+                            enabled: widget.contactEntity == null,
                           ),
                           const SizedBox(height: 16),
                           CustomTextField(
