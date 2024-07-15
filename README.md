@@ -15,7 +15,7 @@ Para mais informações ou solicitações de permissão, entre em contato com Ga
 
 Adicione este launch.json na pasta ./vscode/launch.json
 
-'''
+```json
 {
     "version": "0.2.0",
     "configurations": [
@@ -30,7 +30,7 @@ Adicione este launch.json na pasta ./vscode/launch.json
      
     ]
   }
-'''
+```
 
 ## Getting Started
 
